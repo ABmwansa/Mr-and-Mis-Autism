@@ -6,7 +6,6 @@ import {
   FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
-  FaArrowRight,
   FaUsers,
   FaPuzzlePiece,
   FaRegSmileBeam,
@@ -642,10 +641,10 @@ export default function App() {
           <div className="container topbar-content">
             <div>Empowering inclusion, awareness, and confidence</div>
             <div className="socials">
-              <a href="https://www.facebook.com/61556561801555/"><FaFacebookF /></a>
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaLinkedinIn /></a>
-            </div>
+  <a href="https://www.facebook.com/61556561801555/" target="_blank" rel="noreferrer"><FaFacebookF /></a>
+  <a href="https://instagram.com" target="_blank" rel="noreferrer"><FaInstagram /></a>
+  <a href="https://linkedin.com" target="_blank" rel="noreferrer"><FaLinkedinIn /></a>
+</div>
           </div>
         </div>
 
@@ -966,8 +965,8 @@ export default function App() {
                 <h3>Follow Us</h3>
                 <div className="socials">
                   <a href="https://www.facebook.com/61556561801555/" target="_blank" rel="noreferrer"><FaFacebookF /></a>
-                  <a href="#"><FaInstagram /></a>
-                  <a href="#"><FaLinkedinIn /></a>
+<a href="https://instagram.com" target="_blank" rel="noreferrer"><FaInstagram /></a>
+<a href="https://linkedin.com" target="_blank" rel="noreferrer"><FaLinkedinIn /></a>
                 </div>
               </div>
             </div>
