@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaWhatsapp,
   FaHeart,
@@ -13,8 +13,16 @@ import {
   FaClock,
   FaMapMarkerAlt,
   FaMobileAlt,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 import eventPoster from "./assets/event-poster.jpeg";
+import slide1 from "./assets/slide1.jpg";
+import slide2 from "./assets/slide2.jpg";
+import slide3 from "./assets/slide3.jpg";
+import slide4 from "./assets/slide4.jpg";
+import slide5 from "./assets/slide5.jpg";
+import slide6 from "./assets/slide6.jpg";
 
 export default function App() {
   const programs = [
@@ -41,6 +49,59 @@ export default function App() {
     { value: "100%", label: "Inclusion Focused" },
     { value: "50+", label: "Families Reached" },
   ];
+
+  const slides = [
+    {
+      image: slide1,
+      title: "Celebrating Every Child",
+      text: "Creating joyful and inclusive spaces where children with autism are seen and celebrated.",
+    },
+    {
+      image: slide2,
+      title: "Moments of Confidence",
+      text: "Building confidence, visibility, and self-expression through meaningful community experiences.",
+    },
+    {
+      image: slide3,
+      title: "A Community of Support",
+      text: "Bringing together families, caregivers, and supporters around a shared purpose.",
+    },
+    {
+      image: slide4,
+      title: "Inclusion in Action",
+      text: "Promoting awareness and acceptance through events, storytelling, and connection.",
+    },
+  
+    {
+      image: slide5,
+      title: "Inclusion in Action",
+      text: "Promoting awareness and acceptance through events, storytelling, and connection.",
+    },
+ 
+    {
+      image: slide6,
+      title: "Inclusion in Action",
+      text: "Promoting awareness and acceptance through events, storytelling, and connection.",
+    },
+  ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
+  const goNext = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const goPrev = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
 
   return (
     <>
@@ -172,18 +233,10 @@ export default function App() {
           box-shadow: 0 12px 25px rgba(249, 115, 22, 0.25);
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover,
+        .btn-whatsapp:hover,
+        .btn-momo:hover {
           transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-          background: white;
-          color: #6d28d9;
-          border: 1px solid #ddd6fe;
-        }
-
-        .btn-secondary:hover {
-          background: #f5f3ff;
         }
 
         .btn-whatsapp {
@@ -192,18 +245,10 @@ export default function App() {
           box-shadow: 0 12px 25px rgba(37, 211, 102, 0.25);
         }
 
-        .btn-whatsapp:hover {
-          transform: translateY(-2px);
-        }
-
         .btn-momo {
           background: linear-gradient(135deg, #0f766e, #0d9488);
           color: white;
           box-shadow: 0 12px 25px rgba(13, 148, 136, 0.25);
-        }
-
-        .btn-momo:hover {
-          transform: translateY(-2px);
         }
 
         .hero {
@@ -304,6 +349,111 @@ export default function App() {
         .section-title p {
           color: #64748b;
           font-size: 17px;
+        }
+
+        .slider-section {
+          padding-top: 40px;
+        }
+
+        .slider-shell {
+          position: relative;
+          overflow: hidden;
+          border-radius: 30px;
+          min-height: 520px;
+          background: #0f172a;
+          box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+        }
+
+        .slider-track {
+          display: flex;
+          transition: transform 0.6s ease;
+          height: 100%;
+        }
+
+        .slide {
+          min-width: 100%;
+          position: relative;
+          height: 520px;
+        }
+
+        .slide img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .slide-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, rgba(15,23,42,0.72), rgba(15,23,42,0.28));
+          display: flex;
+          align-items: flex-end;
+          padding: 40px;
+        }
+
+        .slide-content {
+          max-width: 560px;
+          color: white;
+        }
+
+        .slide-content h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: clamp(1.8rem, 4vw, 2.8rem);
+          margin-bottom: 12px;
+        }
+
+        .slide-content p {
+          font-size: 17px;
+          color: rgba(255,255,255,0.92);
+        }
+
+        .slider-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(255,255,255,0.9);
+          color: #0f172a;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 5;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .slider-btn.left {
+          left: 18px;
+        }
+
+        .slider-btn.right {
+          right: 18px;
+        }
+
+        .slider-dots {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 22px;
+        }
+
+        .dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: none;
+          background: #cbd5e1;
+          cursor: pointer;
+          transition: 0.3s ease;
+        }
+
+        .dot.active {
+          background: #6d28d9;
+          transform: scale(1.15);
         }
 
         .about-grid,
@@ -603,8 +753,17 @@ export default function App() {
             justify-content: center;
           }
 
-          .hero-card img {
-            height: 320px;
+          .hero-card img,
+          .slide {
+            height: 360px;
+          }
+
+          .slider-shell {
+            min-height: 360px;
+          }
+
+          .slide-overlay {
+            padding: 24px;
           }
         }
 
@@ -616,7 +775,8 @@ export default function App() {
 
           .hero p,
           .section-title p,
-          .cta p {
+          .cta p,
+          .slide-content p {
             font-size: 16px;
           }
 
@@ -633,6 +793,21 @@ export default function App() {
           .event-person span {
             font-size: 18px;
           }
+
+          .slider-btn {
+            width: 40px;
+            height: 40px;
+          }
+
+          .slide-content h3 {
+            font-size: 1.6rem;
+          }
+
+          .slide,
+          .slider-shell {
+            min-height: 300px;
+            height: 300px;
+          }
         }
       `}</style>
 
@@ -641,11 +816,7 @@ export default function App() {
           <div className="container topbar-content">
             <div>Empowering inclusion, awareness, and confidence</div>
             <div className="socials">
-              <a
-                href="https://www.facebook.com/61556561801555/"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://www.facebook.com/61556561801555/" target="_blank" rel="noreferrer">
                 <FaFacebookF />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noreferrer">
@@ -666,6 +837,7 @@ export default function App() {
 
             <div className="nav-links">
               <a href="#home">Home</a>
+              <a href="#gallery-highlights">Gallery</a>
               <a href="#upcoming-event">Coming Up Next</a>
               <a href="#about">About</a>
               <a href="#programs">Programs</a>
@@ -696,8 +868,8 @@ export default function App() {
               </p>
 
               <div className="hero-actions">
-                <a href="#upcoming-event" className="btn btn-primary">
-                  <FaCalendarAlt /> Coming Up Next
+                <a href="#gallery-highlights" className="btn btn-primary">
+                  <FaHandsHelping /> View Gallery
                 </a>
 
                 <a
@@ -721,8 +893,57 @@ export default function App() {
               </p>
 
               <a href="#upcoming-event" className="btn btn-primary">
-                <FaHandsHelping /> See Event Details
+                <FaCalendarAlt /> See Event Details
               </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="slider-section" id="gallery-highlights">
+          <div className="container">
+            <div className="section-title">
+              <h2>Gallery Highlights</h2>
+              <p>
+                A glimpse into the joy, confidence, connection, and inclusion that define this journey.
+              </p>
+            </div>
+
+            <div className="slider-shell">
+              <button className="slider-btn left" onClick={goPrev} aria-label="Previous slide">
+                <FaChevronLeft />
+              </button>
+
+              <div
+                className="slider-track"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {slides.map((slide, index) => (
+                  <div className="slide" key={index}>
+                    <img src={slide.image} alt={slide.title} />
+                    <div className="slide-overlay">
+                      <div className="slide-content">
+                        <h3>{slide.title}</h3>
+                        <p>{slide.text}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button className="slider-btn right" onClick={goNext} aria-label="Next slide">
+                <FaChevronRight />
+              </button>
+            </div>
+
+            <div className="slider-dots">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  className={`dot ${currentSlide === index ? "active" : ""}`}
+                  onClick={() => setCurrentSlide(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -910,10 +1131,7 @@ export default function App() {
                 children a platform to shine.
               </p>
 
-              <div
-                className="donation-buttons"
-                style={{ justifyContent: "center" }}
-              >
+              <div className="donation-buttons" style={{ justifyContent: "center" }}>
                 <a
                   href="https://wa.me/260979235167?text=Hello%20I%20want%20to%20donate%20through%20WhatsApp%20to%20Mr%20and%20Miss%20Autism"
                   target="_blank"
@@ -950,6 +1168,7 @@ export default function App() {
               <div>
                 <h3>Quick Links</h3>
                 <p><a href="#home">Home</a></p>
+                <p><a href="#gallery-highlights">Gallery</a></p>
                 <p><a href="#upcoming-event">Coming Up Next</a></p>
                 <p><a href="#about">About</a></p>
                 <p><a href="#programs">Programs</a></p>
@@ -958,18 +1177,10 @@ export default function App() {
 
               <div>
                 <h3>Contact</h3>
-                <p>
-                  <a href="mailto:info@mrandmissautism.org">
-                    info@mrandmissautism.org
-                  </a>
-                </p>
+                <p><a href="mailto:info@mrandmissautism.org">info@mrandmissautism.org</a></p>
                 <p><a href="tel:+260979235167">+260 979 235 167</a></p>
                 <p>
-                  <a
-                    href="https://wa.me/260979235167"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a href="https://wa.me/260979235167" target="_blank" rel="noreferrer">
                     Chat on WhatsApp
                   </a>
                 </p>
@@ -978,25 +1189,13 @@ export default function App() {
               <div>
                 <h3>Follow Us</h3>
                 <div className="socials">
-                  <a
-                    href="https://www.facebook.com/61556561801555/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a href="https://www.facebook.com/61556561801555/" target="_blank" rel="noreferrer">
                     <FaFacebookF />
                   </a>
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a href="https://instagram.com" target="_blank" rel="noreferrer">
                     <FaInstagram />
                   </a>
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a href="https://linkedin.com" target="_blank" rel="noreferrer">
                     <FaLinkedinIn />
                   </a>
                 </div>
