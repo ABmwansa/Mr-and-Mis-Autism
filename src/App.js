@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FaWhatsapp,
   FaHeart,
@@ -15,6 +15,13 @@ import {
   FaMobileAlt,
   FaChevronLeft,
   FaChevronRight,
+  FaHandshake,
+  FaBullhorn,
+  FaDownload,
+  FaEnvelope,
+  FaPhoneAlt,
+  FaCheckCircle,
+  FaGlobeAfrica,
 } from "react-icons/fa";
 import eventPoster from "./assets/event-poster.jpeg";
 import slide1 from "./assets/slide1.jpg";
@@ -71,23 +78,82 @@ export default function App() {
       title: "Inclusion in Action",
       text: "Promoting awareness and acceptance through events, storytelling, and connection.",
     },
-  
     {
       image: slide5,
-      title: "Inclusion in Action",
-      text: "Promoting awareness and acceptance through events, storytelling, and connection.",
+      title: "Shared Joy and Growth",
+      text: "Creating meaningful memories that reflect community, belonging, and confidence.",
     },
- 
     {
       image: slide6,
-      title: "Inclusion in Action",
-      text: "Promoting awareness and acceptance through events, storytelling, and connection.",
+      title: "Together for Inclusion",
+      text: "Working together to uplift families and create a stronger voice for autism awareness.",
+    },
+  ];
+
+  const sponsorBenefits = [
+    "Strong visibility across event promotion and digital campaigns",
+    "Positive brand alignment with inclusion, awareness, and family support",
+    "Recognition during the event and across sponsor appreciation materials",
+    "Meaningful partnership with a community-centered social impact initiative",
+  ];
+
+  const sponsorPackages = [
+    {
+      name: "Bronze Sponsor",
+      amount: "K2,500+",
+      className: "package-bronze",
+      benefits: [
+        "Logo on website sponsor section",
+        "Thank-you mention on social media",
+        "Acknowledgement during the event",
+      ],
+    },
+    {
+      name: "Silver Sponsor",
+      amount: "K5,000+",
+      className: "package-silver",
+      benefits: [
+        "Everything in Bronze",
+        "Better logo visibility on campaign materials",
+        "Brand mention on selected event creatives",
+      ],
+    },
+    {
+      name: "Gold Sponsor",
+      amount: "K10,000+",
+      className: "package-gold",
+      benefits: [
+        "Everything in Silver",
+        "Prominent logo placement",
+        "MC mention during the event",
+        "Enhanced digital visibility",
+      ],
+    },
+    {
+      name: "Platinum Sponsor",
+      amount: "K20,000+",
+      className: "package-platinum",
+      benefits: [
+        "Everything in Gold",
+        "Lead sponsor positioning",
+        "Top-tier brand visibility",
+        "Priority recognition across major touchpoints",
+      ],
     },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [sponsorForm, setSponsorForm] = useState({
+    name: "",
+    company: "",
+    phone: "",
+    email: "",
+    package: "Gold Sponsor",
+    message: "",
+  });
 
   useEffect(() => {
+    document.title = "Mr & Miss Autism | Inclusion, Awareness & Sponsorship";
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 4000);
@@ -101,6 +167,28 @@ export default function App() {
 
   const goPrev = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const handleSponsorChange = (e) => {
+    const { name, value } = e.target;
+    setSponsorForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const sponsorWhatsAppLink = useMemo(() => {
+    const text =
+      `Hello, I would like to sponsor Mr & Miss Autism.%0A%0A` +
+      `Name: ${sponsorForm.name}%0A` +
+      `Company: ${sponsorForm.company}%0A` +
+      `Phone: ${sponsorForm.phone}%0A` +
+      `Email: ${sponsorForm.email}%0A` +
+      `Package Interest: ${sponsorForm.package}%0A` +
+      `Message: ${sponsorForm.message}`;
+    return `https://wa.me/260979235167?text=${text}`;
+  }, [sponsorForm]);
+
+  const handleSponsorSubmit = (e) => {
+    e.preventDefault();
+    window.open(sponsorWhatsAppLink, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -235,7 +323,9 @@ export default function App() {
 
         .btn-primary:hover,
         .btn-whatsapp:hover,
-        .btn-momo:hover {
+        .btn-momo:hover,
+        .btn-dark:hover,
+        .btn-secondary:hover {
           transform: translateY(-2px);
         }
 
@@ -249,6 +339,18 @@ export default function App() {
           background: linear-gradient(135deg, #0f766e, #0d9488);
           color: white;
           box-shadow: 0 12px 25px rgba(13, 148, 136, 0.25);
+        }
+
+        .btn-dark {
+          background: #0f172a;
+          color: white;
+          box-shadow: 0 12px 25px rgba(15, 23, 42, 0.18);
+        }
+
+        .btn-secondary {
+          background: white;
+          color: #6d28d9;
+          border: 1px solid #ddd6fe;
         }
 
         .hero {
@@ -426,13 +528,8 @@ export default function App() {
           box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
 
-        .slider-btn.left {
-          left: 18px;
-        }
-
-        .slider-btn.right {
-          right: 18px;
-        }
+        .slider-btn.left { left: 18px; }
+        .slider-btn.right { right: 18px; }
 
         .slider-dots {
           display: flex;
@@ -460,19 +557,45 @@ export default function App() {
         .program-grid,
         .stats-grid,
         .footer-grid,
-        .event-grid {
+        .event-grid,
+        .sponsor-why-grid,
+        .package-grid,
+        .logo-grid,
+        .enquiry-grid {
           display: grid;
           gap: 24px;
         }
 
-        .about-grid {
+        .about-grid,
+        .program-grid {
           grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .sponsor-why-grid {
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        .package-grid {
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        .logo-grid {
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .enquiry-grid {
+          grid-template-columns: 1fr 1fr;
+          align-items: start;
         }
 
         .about-card,
         .program-card,
         .event-card,
-        .poster-card {
+        .poster-card,
+        .sponsor-card,
+        .package-card,
+        .logo-card,
+        .enquiry-card {
           background: white;
           border-radius: 24px;
           padding: 28px;
@@ -484,13 +607,20 @@ export default function App() {
         .about-card:hover,
         .program-card:hover,
         .event-card:hover,
-        .poster-card:hover {
+        .poster-card:hover,
+        .sponsor-card:hover,
+        .package-card:hover,
+        .logo-card:hover,
+        .enquiry-card:hover {
           transform: translateY(-6px);
         }
 
         .about-card h3,
         .program-card h3,
-        .event-card h3 {
+        .event-card h3,
+        .sponsor-card h3,
+        .package-card h3,
+        .enquiry-card h3 {
           font-family: 'Poppins', sans-serif;
           font-size: 22px;
           margin-bottom: 12px;
@@ -499,15 +629,14 @@ export default function App() {
 
         .about-card p,
         .program-card p,
-        .event-card p {
+        .event-card p,
+        .sponsor-card p,
+        .enquiry-card p {
           color: #475569;
         }
 
-        .program-grid {
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        }
-
-        .program-icon {
+        .program-icon,
+        .sponsor-icon {
           width: 65px;
           height: 65px;
           border-radius: 18px;
@@ -631,6 +760,154 @@ export default function App() {
           margin-top: 24px;
         }
 
+        .sponsor-section-wrap {
+          background: linear-gradient(180deg, #ffffff, #f8fafc);
+        }
+
+        .package-badge {
+          display: inline-block;
+          padding: 8px 14px;
+          border-radius: 999px;
+          font-size: 13px;
+          font-weight: 700;
+          margin-bottom: 16px;
+        }
+
+        .package-bronze .package-badge {
+          background: #f5e1d3;
+          color: #8a4b20;
+        }
+
+        .package-silver .package-badge {
+          background: #eef2f7;
+          color: #475569;
+        }
+
+        .package-gold .package-badge {
+          background: #fff1bf;
+          color: #8a6400;
+        }
+
+        .package-platinum .package-badge {
+          background: #ede9fe;
+          color: #6d28d9;
+        }
+
+        .package-price {
+          font-family: 'Poppins', sans-serif;
+          font-size: 30px;
+          font-weight: 800;
+          color: #0f172a;
+          margin-bottom: 14px;
+        }
+
+        .package-list {
+          display: grid;
+          gap: 10px;
+          margin: 18px 0 22px;
+        }
+
+        .package-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          color: #475569;
+        }
+
+        .package-item svg {
+          color: #16a34a;
+          margin-top: 3px;
+          min-width: 16px;
+        }
+
+        .logo-card {
+          min-height: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          font-family: 'Poppins', sans-serif;
+          font-weight: 700;
+          color: #64748b;
+          background: linear-gradient(135deg, #ffffff, #f8fafc);
+        }
+
+        .sponsor-cta-bar {
+          margin-top: 36px;
+          background: linear-gradient(135deg, #6d28d9, #4f46e5);
+          color: white;
+          padding: 28px;
+          border-radius: 24px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 18px;
+          flex-wrap: wrap;
+        }
+
+        .sponsor-cta-bar h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 26px;
+          margin-bottom: 6px;
+        }
+
+        .enquiry-card form {
+          display: grid;
+          gap: 14px;
+          margin-top: 18px;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+          width: 100%;
+          border: 1px solid #dbe2ea;
+          background: #fff;
+          border-radius: 14px;
+          padding: 14px 16px;
+          font-size: 15px;
+          font-family: 'DM Sans', sans-serif;
+          color: #0f172a;
+        }
+
+        .form-textarea {
+          min-height: 140px;
+          resize: vertical;
+        }
+
+        .enquiry-info-list {
+          display: grid;
+          gap: 14px;
+          margin-top: 18px;
+        }
+
+        .enquiry-info-item {
+          display: flex;
+          gap: 14px;
+          align-items: flex-start;
+          background: #f8fafc;
+          padding: 16px;
+          border-radius: 16px;
+        }
+
+        .enquiry-info-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 12px;
+          background: #ede9fe;
+          color: #6d28d9;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 42px;
+        }
+
         .impact-box {
           background: linear-gradient(135deg, #6d28d9, #4f46e5);
           border-radius: 30px;
@@ -741,7 +1018,8 @@ export default function App() {
 
         @media (max-width: 950px) {
           .hero-grid,
-          .event-grid {
+          .event-grid,
+          .enquiry-grid {
             grid-template-columns: 1fr;
           }
 
@@ -764,6 +1042,12 @@ export default function App() {
 
           .slide-overlay {
             padding: 24px;
+          }
+        }
+
+        @media (max-width: 700px) {
+          .form-row {
+            grid-template-columns: 1fr;
           }
         }
 
@@ -839,6 +1123,7 @@ export default function App() {
               <a href="#home">Home</a>
               <a href="#gallery-highlights">Gallery</a>
               <a href="#upcoming-event">Coming Up Next</a>
+              <a href="#sponsors">Sponsors</a>
               <a href="#about">About</a>
               <a href="#programs">Programs</a>
               <a href="#impact">Impact</a>
@@ -872,13 +1157,8 @@ export default function App() {
                   <FaHandsHelping /> View Gallery
                 </a>
 
-                <a
-                  href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20support%20Mr%20and%20Miss%20Autism"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-whatsapp"
-                >
-                  <FaWhatsapp /> WhatsApp
+                <a href="#sponsors" className="btn btn-dark">
+                  <FaHandshake /> Become a Sponsor
                 </a>
               </div>
             </div>
@@ -1038,6 +1318,251 @@ export default function App() {
           </div>
         </section>
 
+        <section id="sponsors" className="sponsor-section-wrap">
+          <div className="container">
+            <div className="section-title">
+              <h2>Sponsor With Us</h2>
+              <p>
+                Partner with us to support autism awareness, inclusion, and community impact while giving your brand meaningful visibility.
+              </p>
+            </div>
+
+            <div className="sponsor-why-grid">
+              <div className="sponsor-card">
+                <div className="sponsor-icon"><FaBullhorn /></div>
+                <h3>Why Sponsor Us</h3>
+                <p>
+                  Your brand becomes part of a positive, people-centered initiative that promotes dignity, inclusion, and hope.
+                </p>
+              </div>
+
+              <div className="sponsor-card">
+                <div className="sponsor-icon"><FaGlobeAfrica /></div>
+                <h3>Community Reach</h3>
+                <p>
+                  Gain visibility across event audiences, families, supporters, social media, and digital campaign channels.
+                </p>
+              </div>
+
+              <div className="sponsor-card">
+                <div className="sponsor-icon"><FaHandshake /></div>
+                <h3>Brand Alignment</h3>
+                <p>
+                  Stand with a project that celebrates children, supports families, and builds meaningful awareness around autism.
+                </p>
+              </div>
+            </div>
+
+            <div className="about-card" style={{ marginTop: "30px" }}>
+              <h3>What sponsors gain</h3>
+              <div className="package-list">
+                {sponsorBenefits.map((benefit, index) => (
+                  <div className="package-item" key={index}>
+                    <FaCheckCircle />
+                    <span>{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="section-title" style={{ marginTop: "56px" }}>
+              <h2>Sponsorship Packages</h2>
+              <p>
+                Choose a package that fits your brand goals, or contact us for a custom partnership conversation.
+              </p>
+            </div>
+
+            <div className="package-grid">
+              {sponsorPackages.map((pkg) => (
+                <div key={pkg.name} className={`package-card ${pkg.className}`}>
+                  <div className="package-badge">{pkg.name}</div>
+                  <div className="package-price">{pkg.amount}</div>
+                  <p>Ideal for organizations looking to make visible, meaningful impact.</p>
+
+                  <div className="package-list">
+                    {pkg.benefits.map((benefit, idx) => (
+                      <div className="package-item" key={idx}>
+                        <FaCheckCircle />
+                        <span>{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <a
+                    href={`https://wa.me/260979235167?text=Hello%20I%20am%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package%20for%20Mr%20and%20Miss%20Autism`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-primary"
+                  >
+                    <FaHandshake /> Choose Package
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            <div className="sponsor-cta-bar">
+              <div>
+                <h3>Need the full sponsorship proposal?</h3>
+                <p>Download the deck or request it directly on WhatsApp.</p>
+              </div>
+
+              <div className="donation-buttons" style={{ marginTop: 0 }}>
+                <a href="/sponsorship-deck.pdf" target="_blank" rel="noreferrer" className="btn btn-dark">
+                  <FaDownload /> Download Deck
+                </a>
+                <a
+                  href="https://wa.me/260979235167?text=Hello%20please%20share%20the%20sponsorship%20deck%20for%20Mr%20and%20Miss%20Autism"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-whatsapp"
+                >
+                  <FaWhatsapp /> Request on WhatsApp
+                </a>
+              </div>
+            </div>
+
+            <div className="section-title" style={{ marginTop: "56px" }}>
+              <h2>Our Partners & Sponsors</h2>
+              <p>
+                As partnerships grow, this section can showcase sponsor logos and build trust with new supporters.
+              </p>
+            </div>
+
+            <div className="logo-grid">
+              <div className="logo-card">Your Logo Here</div>
+              <div className="logo-card">Partner Logo</div>
+              <div className="logo-card">Sponsor Logo</div>
+              <div className="logo-card">Community Partner</div>
+            </div>
+
+            <div className="section-title" style={{ marginTop: "56px" }}>
+              <h2>Sponsor Enquiry</h2>
+              <p>
+                Fill in your details below and continue the sponsor conversation directly on WhatsApp.
+              </p>
+            </div>
+
+            <div className="enquiry-grid">
+              <div className="enquiry-card">
+                <h3>Send a sponsorship enquiry</h3>
+                <p>
+                  Share your details and package interest. This form opens a pre-filled WhatsApp message.
+                </p>
+
+                <form onSubmit={handleSponsorSubmit}>
+                  <div className="form-row">
+                    <input
+                      className="form-input"
+                      name="name"
+                      placeholder="Your Name"
+                      value={sponsorForm.name}
+                      onChange={handleSponsorChange}
+                      required
+                    />
+                    <input
+                      className="form-input"
+                      name="company"
+                      placeholder="Company / Organization"
+                      value={sponsorForm.company}
+                      onChange={handleSponsorChange}
+                    />
+                  </div>
+
+                  <div className="form-row">
+                    <input
+                      className="form-input"
+                      name="phone"
+                      placeholder="Phone Number"
+                      value={sponsorForm.phone}
+                      onChange={handleSponsorChange}
+                    />
+                    <input
+                      className="form-input"
+                      type="email"
+                      name="email"
+                      placeholder="Email Address"
+                      value={sponsorForm.email}
+                      onChange={handleSponsorChange}
+                    />
+                  </div>
+
+                  <select
+                    className="form-select"
+                    name="package"
+                    value={sponsorForm.package}
+                    onChange={handleSponsorChange}
+                  >
+                    {sponsorPackages.map((pkg) => (
+                      <option key={pkg.name} value={pkg.name}>
+                        {pkg.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <textarea
+                    className="form-textarea"
+                    name="message"
+                    placeholder="Tell us how you'd like to partner with us"
+                    value={sponsorForm.message}
+                    onChange={handleSponsorChange}
+                  />
+
+                  <button type="submit" className="btn btn-whatsapp">
+                    <FaWhatsapp /> Send Enquiry on WhatsApp
+                  </button>
+                </form>
+              </div>
+
+              <div className="enquiry-card">
+                <h3>Direct sponsor contact</h3>
+                <p>
+                  Reach out for custom partnerships, sponsorship discussions, and deck requests.
+                </p>
+
+                <div className="enquiry-info-list">
+                  <div className="enquiry-info-item">
+                    <div className="enquiry-info-icon"><FaWhatsapp /></div>
+                    <div>
+                      <strong>WhatsApp</strong>
+                      <p>+260 979 235 167</p>
+                    </div>
+                  </div>
+
+                  <div className="enquiry-info-item">
+                    <div className="enquiry-info-icon"><FaEnvelope /></div>
+                    <div>
+                      <strong>Email</strong>
+                      <p>info@mrandmissautism.org</p>
+                    </div>
+                  </div>
+
+                  <div className="enquiry-info-item">
+                    <div className="enquiry-info-icon"><FaPhoneAlt /></div>
+                    <div>
+                      <strong>Call</strong>
+                      <p>+260 979 235 167</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="donation-buttons">
+                  <a href="/sponsorship-deck.pdf" target="_blank" rel="noreferrer" className="btn btn-dark">
+                    <FaDownload /> Download Deck
+                  </a>
+                  <a
+                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20partner%20with%20Mr%20and%20Miss%20Autism"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-primary"
+                  >
+                    <FaHandshake /> Partner With Us
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="about">
           <div className="container">
             <div className="section-title">
@@ -1149,6 +1674,10 @@ export default function App() {
                 >
                   <FaMobileAlt /> Mobile Money
                 </a>
+
+                <a href="#sponsors" className="btn btn-dark">
+                  <FaHandshake /> Become a Sponsor
+                </a>
               </div>
             </div>
           </div>
@@ -1170,9 +1699,9 @@ export default function App() {
                 <p><a href="#home">Home</a></p>
                 <p><a href="#gallery-highlights">Gallery</a></p>
                 <p><a href="#upcoming-event">Coming Up Next</a></p>
+                <p><a href="#sponsors">Sponsors</a></p>
                 <p><a href="#about">About</a></p>
                 <p><a href="#programs">Programs</a></p>
-                <p><a href="#impact">Impact</a></p>
               </div>
 
               <div>
