@@ -1435,7 +1435,7 @@ export default function App() {
 
             <div className="logo-grid">
   <a
-    href="https://example.com"
+    href="https://web.facebook.com/p/CoolBrain-Infotech-and-Open-Innovation-Centre-100093539933295/?_rdc=1&_rdr#"
     target="_blank"
     rel="noreferrer"
     className="logo-card sponsor-logo-link"
@@ -1444,7 +1444,7 @@ export default function App() {
   </a>
 
   <a
-    href="https://example.com"
+    href="https://mafzambia.org/"
     target="_blank"
     rel="noreferrer"
     className="logo-card sponsor-logo-link"
@@ -1453,7 +1453,7 @@ export default function App() {
   </a>
 
   <a
-    href="https://example.com"
+    href="https://www.specialolympics-ny.org/"
     target="_blank"
     rel="noreferrer"
     className="logo-card sponsor-logo-link"
@@ -1462,7 +1462,7 @@ export default function App() {
   </a>
 
   <a
-    href="https://example.com"
+    href="https://www.zesco.co.zm/"
     target="_blank"
     rel="noreferrer"
     className="logo-card sponsor-logo-link"
@@ -1470,7 +1470,7 @@ export default function App() {
     <img src={sponsor4} alt="Sponsor 4" className="sponsor-logo-img" />
   </a>
   <a
-    href="https://example.com"
+    href="https://multisensoryschool.com/"
     target="_blank"
     rel="noreferrer"
     className="logo-card sponsor-logo-link"
