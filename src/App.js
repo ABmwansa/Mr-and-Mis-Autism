@@ -30,6 +30,11 @@ import slide3 from "./assets/slide3.jpg";
 import slide4 from "./assets/slide4.jpg";
 import slide5 from "./assets/slide5.jpg";
 import slide6 from "./assets/slide6.jpg";
+import sponsor1 from "./assets/sponsor logos/coolbrain.png";
+import sponsor2 from "./assets/sponsor logos/mulenga.png";
+import sponsor3 from "./assets/sponsor logos/special.png";
+import sponsor4 from "./assets/sponsor logos/zesco.png";
+import sponsor5 from "./assets/sponsor logos/multisensory.png";
 
 export default function App() {
   const programs = [
@@ -1429,11 +1434,50 @@ export default function App() {
             </div>
 
             <div className="logo-grid">
-              <div className="logo-card">Your Logo Here</div>
-              <div className="logo-card">Partner Logo</div>
-              <div className="logo-card">Sponsor Logo</div>
-              <div className="logo-card">Community Partner</div>
-            </div>
+  <a
+    href="https://example.com"
+    target="_blank"
+    rel="noreferrer"
+    className="logo-card sponsor-logo-link"
+  >
+    <img src={sponsor1} alt="Sponsor 1" className="sponsor-logo-img" />
+  </a>
+
+  <a
+    href="https://example.com"
+    target="_blank"
+    rel="noreferrer"
+    className="logo-card sponsor-logo-link"
+  >
+    <img src={sponsor2} alt="Sponsor 2" className="sponsor-logo-img" />
+  </a>
+
+  <a
+    href="https://example.com"
+    target="_blank"
+    rel="noreferrer"
+    className="logo-card sponsor-logo-link"
+  >
+    <img src={sponsor3} alt="Sponsor 3" className="sponsor-logo-img" />
+  </a>
+
+  <a
+    href="https://example.com"
+    target="_blank"
+    rel="noreferrer"
+    className="logo-card sponsor-logo-link"
+  >
+    <img src={sponsor4} alt="Sponsor 4" className="sponsor-logo-img" />
+  </a>
+  <a
+    href="https://example.com"
+    target="_blank"
+    rel="noreferrer"
+    className="logo-card sponsor-logo-link"
+  >
+    <img src={sponsor5} alt="Sponsor 4" className="sponsor-logo-img" />
+  </a>
+</div>
 
             <div className="section-title" style={{ marginTop: "56px" }}>
               <h2>Sponsor Enquiry</h2>
