@@ -641,17 +641,27 @@ export default function App() {
           <div className="container topbar-content">
             <div>Empowering inclusion, awareness, and confidence</div>
             <div className="socials">
-  <a href="https://www.facebook.com/61556561801555/" target="_blank" rel="noreferrer"><FaFacebookF /></a>
-  <a href="https://instagram.com" target="_blank" rel="noreferrer"><FaInstagram /></a>
-  <a href="https://linkedin.com" target="_blank" rel="noreferrer"><FaLinkedinIn /></a>
-</div>
+              <a
+                href="https://www.facebook.com/61556561801555/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaFacebookF />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer">
+                <FaInstagram />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer">
+                <FaLinkedinIn />
+              </a>
+            </div>
           </div>
         </div>
 
         <nav className="navbar">
           <div className="container nav-content">
             <div className="logo">
-              Mr & Miss <span>Autism <span style={{color: 'green'}}>Zambia</span></span>
+              Mr & Miss <span>Autism</span>
             </div>
 
             <div className="nav-links">
@@ -702,10 +712,7 @@ export default function App() {
             </div>
 
             <div className="hero-card">
-              <img
-                src={eventPoster}
-                alt="Mr and Miss Autism 2026 poster"
-              />
+              <img src={eventPoster} alt="Mr and Miss Autism 2026 poster" />
               <h3>Advancing neurodiversity through pageantry</h3>
               <p>
                 Join us for an inspiring event that celebrates ability,
@@ -813,7 +820,7 @@ export default function App() {
         <section id="about">
           <div className="container">
             <div className="section-title">
-              <h2>About Mr & Miss Autism Zambia</h2>
+              <h2>About Mr & Miss Autism</h2>
               <p>
                 This project exists to promote dignity, confidence, visibility,
                 and inclusion for children and youth on the autism spectrum.
@@ -903,7 +910,10 @@ export default function App() {
                 children a platform to shine.
               </p>
 
-              <div className="donation-buttons" style={{ justifyContent: "center" }}>
+              <div
+                className="donation-buttons"
+                style={{ justifyContent: "center" }}
+              >
                 <a
                   href="https://wa.me/260979235167?text=Hello%20I%20want%20to%20donate%20through%20WhatsApp%20to%20Mr%20and%20Miss%20Autism"
                   target="_blank"
@@ -948,7 +958,11 @@ export default function App() {
 
               <div>
                 <h3>Contact</h3>
-                <p><a href="mailto:info@mrandmissautism.org">info@mrandmissautism.org</a></p>
+                <p>
+                  <a href="mailto:info@mrandmissautism.org">
+                    info@mrandmissautism.org
+                  </a>
+                </p>
                 <p><a href="tel:+260979235167">+260 979 235 167</a></p>
                 <p>
                   <a
@@ -964,9 +978,27 @@ export default function App() {
               <div>
                 <h3>Follow Us</h3>
                 <div className="socials">
-                  <a href="https://www.facebook.com/61556561801555/" target="_blank" rel="noreferrer"><FaFacebookF /></a>
-<a href="https://instagram.com" target="_blank" rel="noreferrer"><FaInstagram /></a>
-<a href="https://linkedin.com" target="_blank" rel="noreferrer"><FaLinkedinIn /></a>
+                  <a
+                    href="https://www.facebook.com/61556561801555/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaFacebookF />
+                  </a>
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaInstagram />
+                  </a>
+                  <a
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaLinkedinIn />
+                  </a>
                 </div>
               </div>
             </div>
