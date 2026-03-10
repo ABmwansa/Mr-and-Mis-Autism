@@ -991,6 +991,19 @@ export default function App() {
         .footer a:hover {
           color: white;
         }
+          .sponsor-logo-link {
+  text-decoration: none;
+}
+
+.sponsor-logo-img {
+  max-width: 140px;
+  max-height: 80px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
 
         .footer-bottom {
           border-top: 1px solid rgba(255,255,255,0.1);
