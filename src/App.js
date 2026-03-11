@@ -12,7 +12,6 @@ import {
   FaCalendarAlt,
   FaClock,
   FaMapMarkerAlt,
-  FaMobileAlt,
   FaChevronLeft,
   FaChevronRight,
   FaHandshake,
@@ -22,7 +21,9 @@ import {
   FaPhoneAlt,
   FaCheckCircle,
   FaGlobeAfrica,
+  FaUniversity,
 } from "react-icons/fa";
+
 import eventPoster from "./assets/event-poster.jpeg";
 import slide1 from "./assets/slide1.jpg";
 import slide2 from "./assets/slide2.jpg";
@@ -30,6 +31,7 @@ import slide3 from "./assets/slide3.jpg";
 import slide4 from "./assets/slide4.jpg";
 import slide5 from "./assets/slide5.jpg";
 import slide6 from "./assets/slide6.jpg";
+
 import sponsor1 from "./assets/sponsor logos/coolbrain.png";
 import sponsor2 from "./assets/sponsor logos/mulenga.png";
 import sponsor3 from "./assets/sponsor logos/special.png";
@@ -109,7 +111,7 @@ export default function App() {
     {
       icon: <FaUsers />,
       title: "Family Support",
-      text: "We aim to encourage and support parents, guardians, and caregivers with helpful information and community engagement.",
+      text: "We encourage and support parents, guardians, and caregivers with helpful information and community engagement.",
     },
     {
       icon: <FaRegSmileBeam />,
@@ -168,7 +170,7 @@ export default function App() {
   const sponsorPackages = [
     {
       name: "Bronze Sponsor",
-      amount: "K35 000+",
+      amount: "K2,500+",
       className: "package-bronze",
       benefits: [
         "Logo on website sponsor section",
@@ -178,7 +180,7 @@ export default function App() {
     },
     {
       name: "Silver Sponsor",
-      amount: "K25 000+",
+      amount: "K5,000+",
       className: "package-silver",
       benefits: [
         "Everything in Bronze",
@@ -188,7 +190,7 @@ export default function App() {
     },
     {
       name: "Gold Sponsor",
-      amount: "K50 000+",
+      amount: "K10,000+",
       className: "package-gold",
       benefits: [
         "Everything in Silver",
@@ -199,7 +201,7 @@ export default function App() {
     },
     {
       name: "Platinum Sponsor",
-      amount: "K75 000+",
+      amount: "K20,000+",
       className: "package-platinum",
       benefits: [
         "Everything in Gold",
@@ -207,12 +209,6 @@ export default function App() {
         "Top-tier brand visibility",
         "Priority recognition across major touchpoints",
       ],
-    },
-    {
-      name: "Branding Slot",
-      amount: "K7 500+",
-      className: "package-platinum",
-      
     },
   ];
 
@@ -235,13 +231,9 @@ export default function App() {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  const goNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const goPrev = () => {
+  const goNext = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const goPrev = () =>
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
 
   const handleSponsorChange = (e) => {
     const { name, value } = e.target;
@@ -250,7 +242,7 @@ export default function App() {
 
   const sponsorWhatsAppLink = useMemo(() => {
     const text =
-      `Hello, I would like to sponsor Mr & Miss Autism.%0A%0A` +
+      `Hello, I would like to find out more about sponsoring Mr & Miss Autism.%0A%0A` +
       `Name: ${sponsorForm.name}%0A` +
       `Company: ${sponsorForm.company}%0A` +
       `Phone: ${sponsorForm.phone}%0A` +
@@ -267,27 +259,6 @@ export default function App() {
 
   return (
     <>
-    <script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "Mr & Miss Autism Zambia",
-      url: "https://mr-and-mis-autism-i3b7-79sm6x3m9-amos-projects-fb55351d.vercel.app/",
-      logo: "https://mr-and-mis-autism-i3b7-79sm6x3m9-amos-projects-fb55351d.vercel.app/favicon.ico",
-      sameAs: [
-        "https://www.facebook.com/61556561801555/"
-      ],
-      contactPoint: {
-        "@type": "ContactPoint",
-        telephone: "+260979235167",
-        contactType: "customer support",
-        areaServed: "ZM"
-      }
-    }),
-  }}
-/>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
 
@@ -418,9 +389,7 @@ export default function App() {
 
         .btn-primary:hover,
         .btn-whatsapp:hover,
-        .btn-momo:hover,
-        .btn-dark:hover,
-        .btn-secondary:hover {
+        .btn-dark:hover {
           transform: translateY(-2px);
         }
 
@@ -430,22 +399,10 @@ export default function App() {
           box-shadow: 0 12px 25px rgba(37, 211, 102, 0.25);
         }
 
-        .btn-momo {
-          background: linear-gradient(135deg, #0f766e, #0d9488);
-          color: white;
-          box-shadow: 0 12px 25px rgba(13, 148, 136, 0.25);
-        }
-
         .btn-dark {
           background: #0f172a;
           color: white;
           box-shadow: 0 12px 25px rgba(15, 23, 42, 0.18);
-        }
-
-        .btn-secondary {
-          background: white;
-          color: #6d28d9;
-          border: 1px solid #ddd6fe;
         }
 
         .hero {
@@ -690,7 +647,8 @@ export default function App() {
         .sponsor-card,
         .package-card,
         .logo-card,
-        .enquiry-card {
+        .enquiry-card,
+        .payment-card {
           background: white;
           border-radius: 24px;
           padding: 28px;
@@ -706,7 +664,8 @@ export default function App() {
         .sponsor-card::after,
         .package-card::after,
         .logo-card::after,
-        .enquiry-card::after {
+        .enquiry-card::after,
+        .payment-card::after {
           content: "";
           position: absolute;
           left: 0;
@@ -724,7 +683,8 @@ export default function App() {
         .sponsor-card:hover::after,
         .package-card:hover::after,
         .logo-card:hover::after,
-        .enquiry-card:hover::after {
+        .enquiry-card:hover::after,
+        .payment-card:hover::after {
           width: 100%;
         }
 
@@ -735,7 +695,8 @@ export default function App() {
         .sponsor-card:hover,
         .package-card:hover,
         .logo-card:hover,
-        .enquiry-card:hover {
+        .enquiry-card:hover,
+        .payment-card:hover {
           transform: translateY(-6px);
         }
 
@@ -744,7 +705,8 @@ export default function App() {
         .event-card h3,
         .sponsor-card h3,
         .package-card h3,
-        .enquiry-card h3 {
+        .enquiry-card h3,
+        .payment-card h3 {
           font-family: 'Poppins', sans-serif;
           font-size: 22px;
           margin-bottom: 12px;
@@ -755,12 +717,14 @@ export default function App() {
         .program-card p,
         .event-card p,
         .sponsor-card p,
-        .enquiry-card p {
+        .enquiry-card p,
+        .payment-card p {
           color: #475569;
         }
 
         .program-icon,
-        .sponsor-icon {
+        .sponsor-icon,
+        .bank-icon {
           width: 65px;
           height: 65px;
           border-radius: 18px;
@@ -811,7 +775,8 @@ export default function App() {
           margin-bottom: 24px;
         }
 
-        .event-meta-item {
+        .event-meta-item,
+        .payment-item {
           display: flex;
           align-items: flex-start;
           gap: 14px;
@@ -820,7 +785,8 @@ export default function App() {
           border-radius: 16px;
         }
 
-        .event-meta-icon {
+        .event-meta-icon,
+        .payment-item-icon {
           min-width: 42px;
           height: 42px;
           border-radius: 12px;
@@ -832,7 +798,8 @@ export default function App() {
           font-size: 18px;
         }
 
-        .event-meta-item strong {
+        .event-meta-item strong,
+        .payment-item strong {
           display: block;
           color: #0f172a;
           margin-bottom: 4px;
@@ -1027,7 +994,8 @@ export default function App() {
           resize: vertical;
         }
 
-        .enquiry-info-list {
+        .enquiry-info-list,
+        .payment-list {
           display: grid;
           gap: 14px;
           margin-top: 18px;
@@ -1171,12 +1139,8 @@ export default function App() {
         }
 
         @keyframes loadingBar {
-          0% {
-            transform: translateX(-120%);
-          }
-          100% {
-            transform: translateX(320%);
-          }
+          0% { transform: translateX(-120%); }
+          100% { transform: translateX(320%); }
         }
 
         @media (max-width: 950px) {
@@ -1320,7 +1284,7 @@ export default function App() {
                   <FaHandsHelping /> View Gallery
                 </a>
 
-                <a href="#sponsors" className="btn btn-dark">
+                <a href="#sponsorship-payment" className="btn btn-dark">
                   <FaHandshake /> Become a Sponsor
                 </a>
               </div>
@@ -1465,21 +1429,12 @@ export default function App() {
 
                 <div className="donation-buttons">
                   <a
-                    href="https://wa.me/260979235167?text=Hello%20I%20want%20to%20support%20Mr%20and%20Miss%20Autism%20through%20WhatsApp"
+                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20Mr%20and%20Miss%20Autism"
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-whatsapp"
                   >
-                    <FaWhatsapp /> Donate via WhatsApp
-                  </a>
-
-                  <a
-                    href="https://wa.me/260979235167?text=Hello%20I%20want%20to%20donate%20using%20Mobile%20Money%20to%20Mr%20and%20Miss%20Autism"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-momo"
-                  >
-                    <FaMobileAlt /> Mobile Money
+                    <FaWhatsapp /> Find Out More
                   </a>
                 </div>
               </div>
@@ -1496,16 +1451,13 @@ export default function App() {
           </div>
         </section>
 
-        <LazySection
-          fallback={<SectionLoader minHeight="1700px" />}
-          minHeight="1700px"
-        >
+        <LazySection fallback={<SectionLoader minHeight="1900px" />} minHeight="1900px">
           <section id="sponsors" className="sponsor-section-wrap">
             <div className="container">
               <div className="section-title">
                 <h2>Sponsor With Us</h2>
                 <p>
-                  Partner with us to support autism awareness, inclusion, and community impact while giving your brand meaningful visibility.
+                  Sponsorships are confirmed through bank payment only. Once your sponsorship is confirmed, we shall need your logo for brand visibility on our adverts and during the event.
                 </p>
               </div>
 
@@ -1550,7 +1502,7 @@ export default function App() {
               <div className="section-title" style={{ marginTop: "56px" }}>
                 <h2>Sponsorship Packages</h2>
                 <p>
-                  Choose a package that fits your brand goals, or contact us for a custom partnership conversation.
+                  Choose a package that fits your brand goals, then proceed to the sponsorship payment details below.
                 </p>
               </div>
 
@@ -1570,12 +1522,7 @@ export default function App() {
                       ))}
                     </div>
 
-                    <a
-                      href={`https://wa.me/260979235167?text=Hello%20I%20am%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package%20for%20Mr%20and%20Miss%20Autism`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn btn-primary"
-                    >
+                    <a href="#sponsorship-payment" className="btn btn-primary">
                       <FaHandshake /> Choose Package
                     </a>
                   </div>
@@ -1585,7 +1532,7 @@ export default function App() {
               <div className="sponsor-cta-bar">
                 <div>
                   <h3>Need the full sponsorship proposal?</h3>
-                  <p>Download the deck or request it directly on WhatsApp.</p>
+                  <p>Download the deck or use WhatsApp only to find out more.</p>
                 </div>
 
                 <div className="donation-buttons" style={{ marginTop: 0 }}>
@@ -1593,12 +1540,12 @@ export default function App() {
                     <FaDownload /> Download Deck
                   </a>
                   <a
-                    href="https://wa.me/260979235167?text=Hello%20please%20share%20the%20sponsorship%20deck%20for%20Mr%20and%20Miss%20Autism"
+                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Miss%20Autism"
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-whatsapp"
                   >
-                    <FaWhatsapp /> Request on WhatsApp
+                    <FaWhatsapp /> Find Out More
                   </a>
                 </div>
               </div>
@@ -1606,7 +1553,7 @@ export default function App() {
               <div className="section-title" style={{ marginTop: "56px" }}>
                 <h2>Our Partners & Sponsors</h2>
                 <p>
-                  As partnerships grow, this section can showcase sponsor logos and build trust with new supporters.
+                  As partnerships grow, this section showcases sponsor logos and helps build trust with new supporters.
                 </p>
               </div>
 
@@ -1617,13 +1564,7 @@ export default function App() {
                   rel="noreferrer"
                   className="logo-card sponsor-logo-link"
                 >
-                  <img
-                    src={sponsor1}
-                    alt="CoolBrain Infotech"
-                    className="sponsor-logo-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <img src={sponsor1} alt="CoolBrain Infotech" className="sponsor-logo-img" loading="lazy" decoding="async" />
                 </a>
 
                 <a
@@ -1632,13 +1573,7 @@ export default function App() {
                   rel="noreferrer"
                   className="logo-card sponsor-logo-link"
                 >
-                  <img
-                    src={sponsor2}
-                    alt="Mulenga Autism Foundation"
-                    className="sponsor-logo-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <img src={sponsor2} alt="Mulenga Autism Foundation" className="sponsor-logo-img" loading="lazy" decoding="async" />
                 </a>
 
                 <a
@@ -1647,13 +1582,7 @@ export default function App() {
                   rel="noreferrer"
                   className="logo-card sponsor-logo-link"
                 >
-                  <img
-                    src={sponsor3}
-                    alt="Special Olympics"
-                    className="sponsor-logo-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <img src={sponsor3} alt="Special Olympics" className="sponsor-logo-img" loading="lazy" decoding="async" />
                 </a>
 
                 <a
@@ -1662,13 +1591,7 @@ export default function App() {
                   rel="noreferrer"
                   className="logo-card sponsor-logo-link"
                 >
-                  <img
-                    src={sponsor4}
-                    alt="Zesco"
-                    className="sponsor-logo-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <img src={sponsor4} alt="Zesco" className="sponsor-logo-img" loading="lazy" decoding="async" />
                 </a>
 
                 <a
@@ -1677,28 +1600,100 @@ export default function App() {
                   rel="noreferrer"
                   className="logo-card sponsor-logo-link"
                 >
-                  <img
-                    src={sponsor5}
-                    alt="Multisensory School"
-                    className="sponsor-logo-img"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <img src={sponsor5} alt="Multisensory School" className="sponsor-logo-img" loading="lazy" decoding="async" />
                 </a>
+              </div>
+
+              <div id="sponsorship-payment" className="payment-card" style={{ marginTop: "40px" }}>
+                <div className="bank-icon"><FaUniversity /></div>
+                <h3>Sponsorship Payment Details</h3>
+                <p>
+                  We shall need your logo for brand visibility on our adverts and during the event.
+                </p>
+
+                <div className="payment-list">
+                  <div className="payment-item">
+                    <div className="payment-item-icon"><FaUniversity /></div>
+                    <div>
+                      <strong>Bank Name</strong>
+                      <p>ZANACO</p>
+                    </div>
+                  </div>
+
+                  <div className="payment-item">
+                    <div className="payment-item-icon"><FaUniversity /></div>
+                    <div>
+                      <strong>Branch Name</strong>
+                      <p>Manda Hill</p>
+                    </div>
+                  </div>
+
+                  <div className="payment-item">
+                    <div className="payment-item-icon"><FaUniversity /></div>
+                    <div>
+                      <strong>Account Name</strong>
+                      <p>Centre for Persons with Disabilities</p>
+                    </div>
+                  </div>
+
+                  <div className="payment-item">
+                    <div className="payment-item-icon"><FaUniversity /></div>
+                    <div>
+                      <strong>Account Number</strong>
+                      <p>5872795500308</p>
+                    </div>
+                  </div>
+
+                  <div className="payment-item">
+                    <div className="payment-item-icon"><FaUniversity /></div>
+                    <div>
+                      <strong>Sort Code</strong>
+                      <p>10078</p>
+                    </div>
+                  </div>
+
+                  <div className="payment-item">
+                    <div className="payment-item-icon"><FaUniversity /></div>
+                    <div>
+                      <strong>Branch Code</strong>
+                      <p>078</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: "20px" }}>
+                  <p>
+                    Thank you for considering this opportunity to make a profound difference in the lives of individuals with autism. We believe that with your support, the Third Edition of the Mr. & Miss Autism Beauty Pageant & Talent Show will be an unforgettable and empowering experience for all involved.
+                  </p>
+                  <p style={{ marginTop: "12px" }}>
+                    We look forward to the possibility of partnering with you.
+                  </p>
+                </div>
+
+                <div className="donation-buttons">
+                  <a
+                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Miss%20Autism"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-whatsapp"
+                  >
+                    <FaWhatsapp /> Find Out More on WhatsApp
+                  </a>
+                </div>
               </div>
 
               <div className="section-title" style={{ marginTop: "56px" }}>
                 <h2>Sponsor Enquiry</h2>
                 <p>
-                  Fill in your details below and continue the sponsor conversation directly on WhatsApp.
+                  Fill in your details below if you would like to find out more before making payment.
                 </p>
               </div>
 
               <div className="enquiry-grid">
                 <div className="enquiry-card">
-                  <h3>Send a sponsorship enquiry</h3>
+                  <h3>Send a sponsor enquiry</h3>
                   <p>
-                    Share your details and package interest. This form opens a pre-filled WhatsApp message.
+                    Share your details and package interest. This form opens a pre-filled WhatsApp enquiry message.
                   </p>
 
                   <form onSubmit={handleSponsorSubmit}>
@@ -1754,13 +1749,13 @@ export default function App() {
                     <textarea
                       className="form-textarea"
                       name="message"
-                      placeholder="Tell us how you'd like to partner with us"
+                      placeholder="Tell us what you'd like to know"
                       value={sponsorForm.message}
                       onChange={handleSponsorChange}
                     />
 
                     <button type="submit" className="btn btn-whatsapp">
-                      <FaWhatsapp /> Send Enquiry on WhatsApp
+                      <FaWhatsapp /> Ask on WhatsApp
                     </button>
                   </form>
                 </div>
@@ -1768,7 +1763,7 @@ export default function App() {
                 <div className="enquiry-card">
                   <h3>Direct sponsor contact</h3>
                   <p>
-                    Reach out for custom partnerships, sponsorship discussions, and deck requests.
+                    Reach out for clarification, logo submission, sponsorship questions, and deck requests.
                   </p>
 
                   <div className="enquiry-info-list">
@@ -1802,12 +1797,12 @@ export default function App() {
                       <FaDownload /> Download Deck
                     </a>
                     <a
-                      href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20partner%20with%20Mr%20and%20Miss%20Autism"
+                      href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Miss%20Autism"
                       target="_blank"
                       rel="noreferrer"
                       className="btn btn-primary"
                     >
-                      <FaHandshake /> Partner With Us
+                      <FaHandshake /> Find Out More
                     </a>
                   </div>
                 </div>
@@ -1816,10 +1811,7 @@ export default function App() {
           </section>
         </LazySection>
 
-        <LazySection
-          fallback={<SectionLoader minHeight="520px" />}
-          minHeight="520px"
-        >
+        <LazySection fallback={<SectionLoader minHeight="520px" />} minHeight="520px">
           <section id="about">
             <div className="container">
               <div className="section-title">
@@ -1859,10 +1851,7 @@ export default function App() {
           </section>
         </LazySection>
 
-        <LazySection
-          fallback={<SectionLoader minHeight="540px" />}
-          minHeight="540px"
-        >
+        <LazySection fallback={<SectionLoader minHeight="540px" />} minHeight="540px">
           <section id="programs">
             <div className="container">
               <div className="section-title">
@@ -1886,10 +1875,7 @@ export default function App() {
           </section>
         </LazySection>
 
-        <LazySection
-          fallback={<SectionLoader minHeight="500px" />}
-          minHeight="500px"
-        >
+        <LazySection fallback={<SectionLoader minHeight="500px" />} minHeight="500px">
           <section id="impact">
             <div className="container">
               <div className="impact-box">
@@ -1926,24 +1912,15 @@ export default function App() {
 
               <div className="donation-buttons" style={{ justifyContent: "center" }}>
                 <a
-                  href="https://wa.me/260979235167?text=Hello%20I%20want%20to%20donate%20through%20WhatsApp%20to%20Mr%20and%20Miss%20Autism"
+                  href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20donate%20to%20Mr%20and%20Miss%20Autism"
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-whatsapp"
                 >
-                  <FaWhatsapp /> WhatsApp
+                  <FaWhatsapp /> Donate on WhatsApp
                 </a>
 
-                <a
-                  href="https://wa.me/260979235167?text=Hello%20I%20want%20to%20donate%20using%20Mobile%20Money%20to%20Mr%20and%20Miss%20Autism"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-momo"
-                >
-                  <FaMobileAlt /> Mobile Money
-                </a>
-
-                <a href="#sponsors" className="btn btn-dark">
+                <a href="#sponsorship-payment" className="btn btn-dark">
                   <FaHandshake /> Become a Sponsor
                 </a>
               </div>
@@ -2006,7 +1983,7 @@ export default function App() {
         </footer>
 
         <a
-          href="https://wa.me/260979235167?text=Hello%20Mr%20and%20Miss%20Autism"
+          href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20Mr%20and%20Miss%20Autism"
           target="_blank"
           rel="noreferrer"
           className="whatsapp-float"
