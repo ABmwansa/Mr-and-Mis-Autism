@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mr-and-mis-autism-i3b7-79sm6x3m9-amos-projects-fb55351d.vercel.app/sitemap.xml
+Sitemap: https://https://mrandmisautism.vercel.app/sitemap.xml
