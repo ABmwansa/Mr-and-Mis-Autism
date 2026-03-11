@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState, Suspense } from "react";
 import {
   FaWhatsapp,
   FaHeart,
@@ -35,6 +35,69 @@ import sponsor2 from "./assets/sponsor logos/mulenga.png";
 import sponsor3 from "./assets/sponsor logos/special.png";
 import sponsor4 from "./assets/sponsor logos/zesco.png";
 import sponsor5 from "./assets/sponsor logos/multisensory.png";
+
+function SectionLoader({ minHeight = "300px" }) {
+  return (
+    <div
+      style={{
+        minHeight,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "60px 20px",
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: "760px", textAlign: "center" }}>
+        <div
+          style={{
+            width: "100%",
+            height: "10px",
+            background: "#e2e8f0",
+            borderRadius: "999px",
+            overflow: "hidden",
+            marginBottom: "14px",
+          }}
+        >
+          <div className="section-loader-bar" />
+        </div>
+        <p style={{ color: "#64748b", fontSize: "15px" }}>Loading section...</p>
+      </div>
+    </div>
+  );
+}
+
+function LazySection({ children, fallback, minHeight = "300px" }) {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "250px 0px",
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} style={{ minHeight }}>
+      {visible ? <Suspense fallback={fallback}>{children}</Suspense> : fallback}
+    </div>
+  );
+}
 
 export default function App() {
   const programs = [
@@ -607,6 +670,35 @@ export default function App() {
           border: 1px solid #e2e8f0;
           box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
           transition: 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .about-card::after,
+        .program-card::after,
+        .sponsor-card::after,
+        .package-card::after,
+        .logo-card::after,
+        .enquiry-card::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #6d28d9, #f97316);
+          transition: width 0.35s ease;
+          border-bottom-left-radius: 24px;
+          border-bottom-right-radius: 24px;
+        }
+
+        .about-card:hover::after,
+        .program-card:hover::after,
+        .sponsor-card:hover::after,
+        .package-card:hover::after,
+        .logo-card:hover::after,
+        .enquiry-card:hover::after {
+          width: 100%;
         }
 
         .about-card:hover,
@@ -837,6 +929,28 @@ export default function App() {
           background: linear-gradient(135deg, #ffffff, #f8fafc);
         }
 
+        .sponsor-logo-link {
+          text-decoration: none;
+        }
+
+        .sponsor-logo-img {
+          max-width: 150px;
+          max-height: 90px;
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          display: block;
+          margin: 0 auto;
+          filter: grayscale(10%);
+          transition: transform 0.3s ease, filter 0.3s ease;
+          will-change: transform;
+        }
+
+        .logo-card:hover .sponsor-logo-img {
+          transform: scale(1.05);
+          filter: grayscale(0%);
+        }
+
         .sponsor-cta-bar {
           margin-top: 36px;
           background: linear-gradient(135deg, #6d28d9, #4f46e5);
@@ -991,19 +1105,6 @@ export default function App() {
         .footer a:hover {
           color: white;
         }
-          .sponsor-logo-link {
-  text-decoration: none;
-}
-
-.sponsor-logo-img {
-  max-width: 140px;
-  max-height: 80px;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
 
         .footer-bottom {
           border-top: 1px solid rgba(255,255,255,0.1);
@@ -1032,6 +1133,23 @@ export default function App() {
 
         .whatsapp-float:hover {
           transform: scale(1.08);
+        }
+
+        .section-loader-bar {
+          width: 40%;
+          height: 100%;
+          background: linear-gradient(90deg, #6d28d9, #f97316);
+          border-radius: 999px;
+          animation: loadingBar 1.2s infinite ease-in-out;
+        }
+
+        @keyframes loadingBar {
+          0% {
+            transform: translateX(-120%);
+          }
+          100% {
+            transform: translateX(320%);
+          }
         }
 
         @media (max-width: 950px) {
@@ -1182,7 +1300,12 @@ export default function App() {
             </div>
 
             <div className="hero-card">
-              <img src={eventPoster} alt="Mr and Miss Autism 2026 poster" />
+              <img
+                src={eventPoster}
+                alt="Mr and Miss Autism 2026 poster"
+                loading="eager"
+                decoding="async"
+              />
               <h3>Advancing neurodiversity through pageantry</h3>
               <p>
                 Join us for an inspiring event that celebrates ability,
@@ -1217,7 +1340,12 @@ export default function App() {
               >
                 {slides.map((slide, index) => (
                   <div className="slide" key={index}>
-                    <img src={slide.image} alt={slide.title} />
+                    <img
+                      src={slide.image}
+                      alt={slide.title}
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <div className="slide-overlay">
                       <div className="slide-content">
                         <h3>{slide.title}</h3>
@@ -1330,378 +1458,434 @@ export default function App() {
               </div>
 
               <div className="poster-card">
-                <img src={eventPoster} alt="Upcoming event poster" />
+                <img
+                  src={eventPoster}
+                  alt="Upcoming event poster"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             </div>
           </div>
         </section>
 
-        <section id="sponsors" className="sponsor-section-wrap">
-          <div className="container">
-            <div className="section-title">
-              <h2>Sponsor With Us</h2>
-              <p>
-                Partner with us to support autism awareness, inclusion, and community impact while giving your brand meaningful visibility.
-              </p>
-            </div>
-
-            <div className="sponsor-why-grid">
-              <div className="sponsor-card">
-                <div className="sponsor-icon"><FaBullhorn /></div>
-                <h3>Why Sponsor Us</h3>
+        <LazySection
+          fallback={<SectionLoader minHeight="1700px" />}
+          minHeight="1700px"
+        >
+          <section id="sponsors" className="sponsor-section-wrap">
+            <div className="container">
+              <div className="section-title">
+                <h2>Sponsor With Us</h2>
                 <p>
-                  Your brand becomes part of a positive, people-centered initiative that promotes dignity, inclusion, and hope.
+                  Partner with us to support autism awareness, inclusion, and community impact while giving your brand meaningful visibility.
                 </p>
               </div>
 
-              <div className="sponsor-card">
-                <div className="sponsor-icon"><FaGlobeAfrica /></div>
-                <h3>Community Reach</h3>
+              <div className="sponsor-why-grid">
+                <div className="sponsor-card">
+                  <div className="sponsor-icon"><FaBullhorn /></div>
+                  <h3>Why Sponsor Us</h3>
+                  <p>
+                    Your brand becomes part of a positive, people-centered initiative that promotes dignity, inclusion, and hope.
+                  </p>
+                </div>
+
+                <div className="sponsor-card">
+                  <div className="sponsor-icon"><FaGlobeAfrica /></div>
+                  <h3>Community Reach</h3>
+                  <p>
+                    Gain visibility across event audiences, families, supporters, social media, and digital campaign channels.
+                  </p>
+                </div>
+
+                <div className="sponsor-card">
+                  <div className="sponsor-icon"><FaHandshake /></div>
+                  <h3>Brand Alignment</h3>
+                  <p>
+                    Stand with a project that celebrates children, supports families, and builds meaningful awareness around autism.
+                  </p>
+                </div>
+              </div>
+
+              <div className="about-card" style={{ marginTop: "30px" }}>
+                <h3>What sponsors gain</h3>
+                <div className="package-list">
+                  {sponsorBenefits.map((benefit, index) => (
+                    <div className="package-item" key={index}>
+                      <FaCheckCircle />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="section-title" style={{ marginTop: "56px" }}>
+                <h2>Sponsorship Packages</h2>
                 <p>
-                  Gain visibility across event audiences, families, supporters, social media, and digital campaign channels.
+                  Choose a package that fits your brand goals, or contact us for a custom partnership conversation.
                 </p>
               </div>
 
-              <div className="sponsor-card">
-                <div className="sponsor-icon"><FaHandshake /></div>
-                <h3>Brand Alignment</h3>
-                <p>
-                  Stand with a project that celebrates children, supports families, and builds meaningful awareness around autism.
-                </p>
-              </div>
-            </div>
+              <div className="package-grid">
+                {sponsorPackages.map((pkg) => (
+                  <div key={pkg.name} className={`package-card ${pkg.className}`}>
+                    <div className="package-badge">{pkg.name}</div>
+                    <div className="package-price">{pkg.amount}</div>
+                    <p>Ideal for organizations looking to make visible, meaningful impact.</p>
 
-            <div className="about-card" style={{ marginTop: "30px" }}>
-              <h3>What sponsors gain</h3>
-              <div className="package-list">
-                {sponsorBenefits.map((benefit, index) => (
-                  <div className="package-item" key={index}>
-                    <FaCheckCircle />
-                    <span>{benefit}</span>
+                    <div className="package-list">
+                      {pkg.benefits.map((benefit, idx) => (
+                        <div className="package-item" key={idx}>
+                          <FaCheckCircle />
+                          <span>{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <a
+                      href={`https://wa.me/260979235167?text=Hello%20I%20am%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package%20for%20Mr%20and%20Miss%20Autism`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-primary"
+                    >
+                      <FaHandshake /> Choose Package
+                    </a>
                   </div>
                 ))}
               </div>
-            </div>
 
-            <div className="section-title" style={{ marginTop: "56px" }}>
-              <h2>Sponsorship Packages</h2>
-              <p>
-                Choose a package that fits your brand goals, or contact us for a custom partnership conversation.
-              </p>
-            </div>
-
-            <div className="package-grid">
-              {sponsorPackages.map((pkg) => (
-                <div key={pkg.name} className={`package-card ${pkg.className}`}>
-                  <div className="package-badge">{pkg.name}</div>
-                  <div className="package-price">{pkg.amount}</div>
-                  <p>Ideal for organizations looking to make visible, meaningful impact.</p>
-
-                  <div className="package-list">
-                    {pkg.benefits.map((benefit, idx) => (
-                      <div className="package-item" key={idx}>
-                        <FaCheckCircle />
-                        <span>{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <a
-                    href={`https://wa.me/260979235167?text=Hello%20I%20am%20interested%20in%20the%20${encodeURIComponent(pkg.name)}%20package%20for%20Mr%20and%20Miss%20Autism`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-primary"
-                  >
-                    <FaHandshake /> Choose Package
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            <div className="sponsor-cta-bar">
-              <div>
-                <h3>Need the full sponsorship proposal?</h3>
-                <p>Download the deck or request it directly on WhatsApp.</p>
-              </div>
-
-              <div className="donation-buttons" style={{ marginTop: 0 }}>
-                <a href="/sponsorship-deck.pdf" target="_blank" rel="noreferrer" className="btn btn-dark">
-                  <FaDownload /> Download Deck
-                </a>
-                <a
-                  href="https://wa.me/260979235167?text=Hello%20please%20share%20the%20sponsorship%20deck%20for%20Mr%20and%20Miss%20Autism"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-whatsapp"
-                >
-                  <FaWhatsapp /> Request on WhatsApp
-                </a>
-              </div>
-            </div>
-
-            <div className="section-title" style={{ marginTop: "56px" }}>
-              <h2>Our Partners & Sponsors</h2>
-              <p>
-                As partnerships grow, this section can showcase sponsor logos and build trust with new supporters.
-              </p>
-            </div>
-
-            <div className="logo-grid">
-  <a
-    href="https://web.facebook.com/p/CoolBrain-Infotech-and-Open-Innovation-Centre-100093539933295/?_rdc=1&_rdr#"
-    target="_blank"
-    rel="noreferrer"
-    className="logo-card sponsor-logo-link"
-  >
-    <img src={sponsor1} alt="Sponsor 1" className="sponsor-logo-img" />
-  </a>
-
-  <a
-    href="https://mafzambia.org/"
-    target="_blank"
-    rel="noreferrer"
-    className="logo-card sponsor-logo-link"
-  >
-    <img src={sponsor2} alt="Sponsor 2" className="sponsor-logo-img" />
-  </a>
-
-  <a
-    href="https://www.specialolympics-ny.org/"
-    target="_blank"
-    rel="noreferrer"
-    className="logo-card sponsor-logo-link"
-  >
-    <img src={sponsor3} alt="Sponsor 3" className="sponsor-logo-img" />
-  </a>
-
-  <a
-    href="https://www.zesco.co.zm/"
-    target="_blank"
-    rel="noreferrer"
-    className="logo-card sponsor-logo-link"
-  >
-    <img src={sponsor4} alt="Sponsor 4" className="sponsor-logo-img" />
-  </a>
-  <a
-    href="https://multisensoryschool.com/"
-    target="_blank"
-    rel="noreferrer"
-    className="logo-card sponsor-logo-link"
-  >
-    <img src={sponsor5} alt="Sponsor 4" className="sponsor-logo-img" />
-  </a>
-</div>
-
-            <div className="section-title" style={{ marginTop: "56px" }}>
-              <h2>Sponsor Enquiry</h2>
-              <p>
-                Fill in your details below and continue the sponsor conversation directly on WhatsApp.
-              </p>
-            </div>
-
-            <div className="enquiry-grid">
-              <div className="enquiry-card">
-                <h3>Send a sponsorship enquiry</h3>
-                <p>
-                  Share your details and package interest. This form opens a pre-filled WhatsApp message.
-                </p>
-
-                <form onSubmit={handleSponsorSubmit}>
-                  <div className="form-row">
-                    <input
-                      className="form-input"
-                      name="name"
-                      placeholder="Your Name"
-                      value={sponsorForm.name}
-                      onChange={handleSponsorChange}
-                      required
-                    />
-                    <input
-                      className="form-input"
-                      name="company"
-                      placeholder="Company / Organization"
-                      value={sponsorForm.company}
-                      onChange={handleSponsorChange}
-                    />
-                  </div>
-
-                  <div className="form-row">
-                    <input
-                      className="form-input"
-                      name="phone"
-                      placeholder="Phone Number"
-                      value={sponsorForm.phone}
-                      onChange={handleSponsorChange}
-                    />
-                    <input
-                      className="form-input"
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      value={sponsorForm.email}
-                      onChange={handleSponsorChange}
-                    />
-                  </div>
-
-                  <select
-                    className="form-select"
-                    name="package"
-                    value={sponsorForm.package}
-                    onChange={handleSponsorChange}
-                  >
-                    {sponsorPackages.map((pkg) => (
-                      <option key={pkg.name} value={pkg.name}>
-                        {pkg.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <textarea
-                    className="form-textarea"
-                    name="message"
-                    placeholder="Tell us how you'd like to partner with us"
-                    value={sponsorForm.message}
-                    onChange={handleSponsorChange}
-                  />
-
-                  <button type="submit" className="btn btn-whatsapp">
-                    <FaWhatsapp /> Send Enquiry on WhatsApp
-                  </button>
-                </form>
-              </div>
-
-              <div className="enquiry-card">
-                <h3>Direct sponsor contact</h3>
-                <p>
-                  Reach out for custom partnerships, sponsorship discussions, and deck requests.
-                </p>
-
-                <div className="enquiry-info-list">
-                  <div className="enquiry-info-item">
-                    <div className="enquiry-info-icon"><FaWhatsapp /></div>
-                    <div>
-                      <strong>WhatsApp</strong>
-                      <p>+260 979 235 167</p>
-                    </div>
-                  </div>
-
-                  <div className="enquiry-info-item">
-                    <div className="enquiry-info-icon"><FaEnvelope /></div>
-                    <div>
-                      <strong>Email</strong>
-                      <p>info@mrandmissautism.org</p>
-                    </div>
-                  </div>
-
-                  <div className="enquiry-info-item">
-                    <div className="enquiry-info-icon"><FaPhoneAlt /></div>
-                    <div>
-                      <strong>Call</strong>
-                      <p>+260 979 235 167</p>
-                    </div>
-                  </div>
+              <div className="sponsor-cta-bar">
+                <div>
+                  <h3>Need the full sponsorship proposal?</h3>
+                  <p>Download the deck or request it directly on WhatsApp.</p>
                 </div>
 
-                <div className="donation-buttons">
+                <div className="donation-buttons" style={{ marginTop: 0 }}>
                   <a href="/sponsorship-deck.pdf" target="_blank" rel="noreferrer" className="btn btn-dark">
                     <FaDownload /> Download Deck
                   </a>
                   <a
-                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20partner%20with%20Mr%20and%20Miss%20Autism"
+                    href="https://wa.me/260979235167?text=Hello%20please%20share%20the%20sponsorship%20deck%20for%20Mr%20and%20Miss%20Autism"
                     target="_blank"
                     rel="noreferrer"
-                    className="btn btn-primary"
+                    className="btn btn-whatsapp"
                   >
-                    <FaHandshake /> Partner With Us
+                    <FaWhatsapp /> Request on WhatsApp
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
 
-        <section id="about">
-          <div className="container">
-            <div className="section-title">
-              <h2>About Mr & Miss Autism</h2>
-              <p>
-                This project exists to promote dignity, confidence, visibility,
-                and inclusion for children and youth on the autism spectrum.
-              </p>
-            </div>
-
-            <div className="about-grid">
-              <div className="about-card">
-                <h3>Our Vision</h3>
+              <div className="section-title" style={{ marginTop: "56px" }}>
+                <h2>Our Partners & Sponsors</h2>
                 <p>
-                  To build a society where individuals with autism are embraced,
-                  understood, celebrated, and given equal opportunities to grow.
+                  As partnerships grow, this section can showcase sponsor logos and build trust with new supporters.
                 </p>
               </div>
 
-              <div className="about-card">
-                <h3>Our Mission</h3>
+              <div className="logo-grid">
+                <a
+                  href="https://web.facebook.com/p/CoolBrain-Infotech-and-Open-Innovation-Centre-100093539933295/?_rdc=1&_rdr#"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="logo-card sponsor-logo-link"
+                >
+                  <img
+                    src={sponsor1}
+                    alt="CoolBrain Infotech"
+                    className="sponsor-logo-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+
+                <a
+                  href="https://mafzambia.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="logo-card sponsor-logo-link"
+                >
+                  <img
+                    src={sponsor2}
+                    alt="Mulenga Autism Foundation"
+                    className="sponsor-logo-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+
+                <a
+                  href="https://www.specialolympics-ny.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="logo-card sponsor-logo-link"
+                >
+                  <img
+                    src={sponsor3}
+                    alt="Special Olympics"
+                    className="sponsor-logo-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+
+                <a
+                  href="https://www.zesco.co.zm/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="logo-card sponsor-logo-link"
+                >
+                  <img
+                    src={sponsor4}
+                    alt="Zesco"
+                    className="sponsor-logo-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+
+                <a
+                  href="https://multisensoryschool.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="logo-card sponsor-logo-link"
+                >
+                  <img
+                    src={sponsor5}
+                    alt="Multisensory School"
+                    className="sponsor-logo-img"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </div>
+
+              <div className="section-title" style={{ marginTop: "56px" }}>
+                <h2>Sponsor Enquiry</h2>
                 <p>
-                  To raise autism awareness, support families, celebrate unique
-                  talents, and encourage meaningful inclusion in communities.
+                  Fill in your details below and continue the sponsor conversation directly on WhatsApp.
                 </p>
               </div>
 
-              <div className="about-card">
-                <h3>Why It Matters</h3>
-                <p>
-                  Many children with autism are misunderstood or overlooked.
-                  This project helps bring visibility, understanding, and hope.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+              <div className="enquiry-grid">
+                <div className="enquiry-card">
+                  <h3>Send a sponsorship enquiry</h3>
+                  <p>
+                    Share your details and package interest. This form opens a pre-filled WhatsApp message.
+                  </p>
 
-        <section id="programs">
-          <div className="container">
-            <div className="section-title">
-              <h2>What We Do</h2>
-              <p>
-                We focus on awareness, empowerment, support, and the celebration
-                of unique abilities.
-              </p>
-            </div>
+                  <form onSubmit={handleSponsorSubmit}>
+                    <div className="form-row">
+                      <input
+                        className="form-input"
+                        name="name"
+                        placeholder="Your Name"
+                        value={sponsorForm.name}
+                        onChange={handleSponsorChange}
+                        required
+                      />
+                      <input
+                        className="form-input"
+                        name="company"
+                        placeholder="Company / Organization"
+                        value={sponsorForm.company}
+                        onChange={handleSponsorChange}
+                      />
+                    </div>
 
-            <div className="program-grid">
-              {programs.map((item, index) => (
-                <div className="program-card" key={index}>
-                  <div className="program-icon">{item.icon}</div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
+                    <div className="form-row">
+                      <input
+                        className="form-input"
+                        name="phone"
+                        placeholder="Phone Number"
+                        value={sponsorForm.phone}
+                        onChange={handleSponsorChange}
+                      />
+                      <input
+                        className="form-input"
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        value={sponsorForm.email}
+                        onChange={handleSponsorChange}
+                      />
+                    </div>
+
+                    <select
+                      className="form-select"
+                      name="package"
+                      value={sponsorForm.package}
+                      onChange={handleSponsorChange}
+                    >
+                      {sponsorPackages.map((pkg) => (
+                        <option key={pkg.name} value={pkg.name}>
+                          {pkg.name}
+                        </option>
+                      ))}
+                    </select>
+
+                    <textarea
+                      className="form-textarea"
+                      name="message"
+                      placeholder="Tell us how you'd like to partner with us"
+                      value={sponsorForm.message}
+                      onChange={handleSponsorChange}
+                    />
+
+                    <button type="submit" className="btn btn-whatsapp">
+                      <FaWhatsapp /> Send Enquiry on WhatsApp
+                    </button>
+                  </form>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        <section id="impact">
-          <div className="container">
-            <div className="impact-box">
-              <div className="section-title" style={{ marginBottom: "25px" }}>
-                <h2 style={{ color: "white" }}>Our Desired Impact</h2>
-                <p style={{ color: "rgba(255,255,255,0.85)" }}>
-                  We want to create a kinder and more inclusive community where
-                  children with autism are seen, appreciated, and supported.
+                <div className="enquiry-card">
+                  <h3>Direct sponsor contact</h3>
+                  <p>
+                    Reach out for custom partnerships, sponsorship discussions, and deck requests.
+                  </p>
+
+                  <div className="enquiry-info-list">
+                    <div className="enquiry-info-item">
+                      <div className="enquiry-info-icon"><FaWhatsapp /></div>
+                      <div>
+                        <strong>WhatsApp</strong>
+                        <p>+260 979 235 167</p>
+                      </div>
+                    </div>
+
+                    <div className="enquiry-info-item">
+                      <div className="enquiry-info-icon"><FaEnvelope /></div>
+                      <div>
+                        <strong>Email</strong>
+                        <p>info@mrandmissautism.org</p>
+                      </div>
+                    </div>
+
+                    <div className="enquiry-info-item">
+                      <div className="enquiry-info-icon"><FaPhoneAlt /></div>
+                      <div>
+                        <strong>Call</strong>
+                        <p>+260 979 235 167</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="donation-buttons">
+                    <a href="/sponsorship-deck.pdf" target="_blank" rel="noreferrer" className="btn btn-dark">
+                      <FaDownload /> Download Deck
+                    </a>
+                    <a
+                      href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20partner%20with%20Mr%20and%20Miss%20Autism"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-primary"
+                    >
+                      <FaHandshake /> Partner With Us
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </LazySection>
+
+        <LazySection
+          fallback={<SectionLoader minHeight="520px" />}
+          minHeight="520px"
+        >
+          <section id="about">
+            <div className="container">
+              <div className="section-title">
+                <h2>About Mr & Miss Autism</h2>
+                <p>
+                  This project exists to promote dignity, confidence, visibility,
+                  and inclusion for children and youth on the autism spectrum.
                 </p>
               </div>
 
-              <div className="stats-grid">
-                {stats.map((stat, index) => (
-                  <div className="stat-card" key={index}>
-                    <h3>{stat.value}</h3>
-                    <p>{stat.label}</p>
+              <div className="about-grid">
+                <div className="about-card">
+                  <h3>Our Vision</h3>
+                  <p>
+                    To build a society where individuals with autism are embraced,
+                    understood, celebrated, and given equal opportunities to grow.
+                  </p>
+                </div>
+
+                <div className="about-card">
+                  <h3>Our Mission</h3>
+                  <p>
+                    To raise autism awareness, support families, celebrate unique
+                    talents, and encourage meaningful inclusion in communities.
+                  </p>
+                </div>
+
+                <div className="about-card">
+                  <h3>Why It Matters</h3>
+                  <p>
+                    Many children with autism are misunderstood or overlooked.
+                    This project helps bring visibility, understanding, and hope.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </LazySection>
+
+        <LazySection
+          fallback={<SectionLoader minHeight="540px" />}
+          minHeight="540px"
+        >
+          <section id="programs">
+            <div className="container">
+              <div className="section-title">
+                <h2>What We Do</h2>
+                <p>
+                  We focus on awareness, empowerment, support, and the celebration
+                  of unique abilities.
+                </p>
+              </div>
+
+              <div className="program-grid">
+                {programs.map((item, index) => (
+                  <div className="program-card" key={index}>
+                    <div className="program-icon">{item.icon}</div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </LazySection>
+
+        <LazySection
+          fallback={<SectionLoader minHeight="500px" />}
+          minHeight="500px"
+        >
+          <section id="impact">
+            <div className="container">
+              <div className="impact-box">
+                <div className="section-title" style={{ marginBottom: "25px" }}>
+                  <h2 style={{ color: "white" }}>Our Desired Impact</h2>
+                  <p style={{ color: "rgba(255,255,255,0.85)" }}>
+                    We want to create a kinder and more inclusive community where
+                    children with autism are seen, appreciated, and supported.
+                  </p>
+                </div>
+
+                <div className="stats-grid">
+                  {stats.map((stat, index) => (
+                    <div className="stat-card" key={index}>
+                      <h3>{stat.value}</h3>
+                      <p>{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        </LazySection>
 
         <section>
           <div className="container">
