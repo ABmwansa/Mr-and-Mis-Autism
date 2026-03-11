@@ -116,7 +116,7 @@ export default function App() {
     {
       icon: <FaRegSmileBeam />,
       title: "Talent Celebration",
-      text: "Mr & Mis Autism gives children and young people a platform to be seen, appreciated, and celebrated.",
+      text: "Mr & Miss Autism gives children and young people a platform to be seen, appreciated, and celebrated.",
     },
   ];
 
@@ -232,7 +232,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    document.title = "Mr & Mis Autism | Inclusion, Awareness & Sponsorship";
+    document.title = "Mr & Miss Autism | Inclusion, Awareness & Sponsorship";
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 4000);
@@ -251,7 +251,7 @@ export default function App() {
 
   const sponsorWhatsAppLink = useMemo(() => {
     const text =
-      `Hello, I would like to find out more about sponsoring Mr & Mis Autism.%0A%0A` +
+      `Hello, I would like to find out more about sponsoring Mr & Miss Autism.%0A%0A` +
       `Name: ${sponsorForm.name}%0A` +
       `Company: ${sponsorForm.company}%0A` +
       `Phone: ${sponsorForm.phone}%0A` +
@@ -1252,7 +1252,7 @@ export default function App() {
         <nav className="navbar">
           <div className="container nav-content">
             <div className="logo">
-              Mr & Mis <span>Autism</span>
+              Mr & Miss <span>Autism</span>
             </div>
 
             <div className="nav-links">
@@ -1283,7 +1283,7 @@ export default function App() {
               <div className="hero-badge">Inclusion • Awareness • Celebration</div>
               <h1>Celebrating children and young people with autism</h1>
               <p>
-                Mr & Mis Autism is a personal project dedicated to raising
+                Mr & Miss Autism is a personal project dedicated to raising
                 awareness, celebrating unique abilities, and creating a more
                 supportive and inclusive community for children with autism and
                 their families.
@@ -1303,7 +1303,7 @@ export default function App() {
             <div className="hero-card">
               <img
                 src={eventPoster}
-                alt="Mr and Mis Autism 2026 poster"
+                alt="Mr and Miss Autism 2026 poster"
                 loading="eager"
                 decoding="async"
               />
@@ -1388,7 +1388,7 @@ export default function App() {
             <div className="event-grid">
               <div className="event-card">
                 <div className="event-tag">Upcoming Event</div>
-                <h3>Mr & Mis Autism 2026</h3>
+                <h3>Mr & Miss Autism 2026</h3>
                 <div className="event-theme">
                   Theme: “Advancing Neurodiversity Through Pageantry”
                 </div>
@@ -1439,7 +1439,7 @@ export default function App() {
 
                 <div className="donation-buttons">
                   <a
-                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20Mr%20and%20Mis%20Autism"
+                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20Mr%20and%20Miss%20Autism"
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-whatsapp"
@@ -1550,7 +1550,7 @@ export default function App() {
                     <FaDownload /> Download Deck
                   </a>
                   <a
-                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Mis%20Autism"
+                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Miss%20Autism"
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-whatsapp"
@@ -1673,7 +1673,7 @@ export default function App() {
 
                 <div style={{ marginTop: "20px" }}>
                   <p>
-                    Thank you for considering this opportunity to make a profound difference in the lives of individuals with autism. We believe that with your support, the Third Edition of the Mr. & Mis Autism Beauty Pageant & Talent Show will be an unforgettable and empowering experience for all involved.
+                    Thank you for considering this opportunity to make a profound difference in the lives of individuals with autism. We believe that with your support, the Third Edition of the Mr. & Miss Autism Beauty Pageant & Talent Show will be an unforgettable and empowering experience for all involved.
                   </p>
                   <p style={{ marginTop: "12px" }}>
                     We look forward to the possibility of partnering with you.
@@ -1682,7 +1682,7 @@ export default function App() {
 
                 <div className="donation-buttons">
                   <a
-                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Mis%20Autism"
+                    href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Miss%20Autism"
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-whatsapp"
@@ -1807,7 +1807,7 @@ export default function App() {
                       <FaDownload /> Download Deck
                     </a>
                     <a
-                      href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Mis%20Autism"
+                      href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20sponsoring%20Mr%20and%20Miss%20Autism"
                       target="_blank"
                       rel="noreferrer"
                       className="btn btn-primary"
@@ -1825,7 +1825,7 @@ export default function App() {
           <section id="about">
             <div className="container">
               <div className="section-title">
-                <h2>About Mr & Mis Autism</h2>
+                <h2>About Mr & Miss Autism</h2>
                 <p>
                   This project exists to promote dignity, confidence, visibility,
                   and inclusion for children and youth on the autism spectrum.
@@ -1922,7 +1922,7 @@ export default function App() {
 
               <div className="donation-buttons" style={{ justifyContent: "center" }}>
                 <a
-                  href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20donate%20to%20Mr%20and%20Mis%20Autism"
+                  href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20donate%20to%20Mr%20and%20Miss%20Autism"
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-whatsapp"
@@ -1942,7 +1942,7 @@ export default function App() {
           <div className="container">
             <div className="footer-grid">
               <div>
-                <h3>Mr & Mis Autism</h3>
+                <h3>Mr & Miss Autism</h3>
                 <p>
                   A personal project focused on autism awareness, inclusion,
                   family support, and celebrating every child’s uniqueness.
@@ -1987,13 +1987,13 @@ export default function App() {
             </div>
 
             <div className="footer-bottom">
-              © 2026 Mr & Mis Autism. All rights reserved.
+              © 2026 Mr & Miss Autism. All rights reserved.
             </div>
           </div>
         </footer>
 
         <a
-          href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20Mr%20and%20Mis%20Autism"
+          href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20Mr%20and%20Miss%20Autism"
           target="_blank"
           rel="noreferrer"
           className="whatsapp-float"
