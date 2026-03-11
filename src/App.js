@@ -1271,7 +1271,7 @@ export default function App() {
                 className="btn btn-primary"
               >
                 
-                <FaHeart /> Donate
+                <FaHeart href="#sponsorship-payment"/> Donate
               </a>
             </div>
           </div>
