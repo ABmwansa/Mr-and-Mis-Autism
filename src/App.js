@@ -168,7 +168,7 @@ export default function App() {
   const sponsorPackages = [
     {
       name: "Bronze Sponsor",
-      amount: "K2,500+",
+      amount: "K35 000+",
       className: "package-bronze",
       benefits: [
         "Logo on website sponsor section",
@@ -178,7 +178,7 @@ export default function App() {
     },
     {
       name: "Silver Sponsor",
-      amount: "K5,000+",
+      amount: "K25 000+",
       className: "package-silver",
       benefits: [
         "Everything in Bronze",
@@ -188,7 +188,7 @@ export default function App() {
     },
     {
       name: "Gold Sponsor",
-      amount: "K10,000+",
+      amount: "K50 000+",
       className: "package-gold",
       benefits: [
         "Everything in Silver",
@@ -199,7 +199,7 @@ export default function App() {
     },
     {
       name: "Platinum Sponsor",
-      amount: "K20,000+",
+      amount: "K75 000+",
       className: "package-platinum",
       benefits: [
         "Everything in Gold",
@@ -207,6 +207,12 @@ export default function App() {
         "Top-tier brand visibility",
         "Priority recognition across major touchpoints",
       ],
+    },
+    {
+      name: "Branding Slot",
+      amount: "K7 500+",
+      className: "package-platinum",
+      
     },
   ];
 
