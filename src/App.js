@@ -1265,11 +1265,12 @@ export default function App() {
               <a href="#impact">Impact</a>
               <a href="#contact">Contact</a>
               <a
-                href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20donate%20to%20Mr%20and%20Miss%20Autism"
+                href="#sponsorship-payment"
                 target="_blank"
                 rel="noreferrer"
                 className="btn btn-primary"
               >
+                
                 <FaHeart /> Donate
               </a>
             </div>
