@@ -1323,7 +1323,7 @@ export default function App() {
         <section className="slider-section" id="gallery-highlights">
           <div className="container">
             <div className="section-title">
-              <h2>Gallery Highlights</h2>
+              <h2>Gallery Highlights for 2025 event</h2>
               <p>
                 A glimpse into the joy, confidence, connection, and inclusion that define this journey.
               </p>
