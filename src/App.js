@@ -212,7 +212,7 @@ export default function App() {
     },
     {
       name: "Branding Slot",
-      amount: "K75,000+",
+      amount: "K7 500+",
       className: "package-platinum",
       benefits: [
         "Get your brand dispayed",
