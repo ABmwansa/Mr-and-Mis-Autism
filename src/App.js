@@ -1545,7 +1545,7 @@ export default function App() {
                     rel="noreferrer"
                     className="btn btn-whatsapp"
                   >
-                    <FaWhatsapp /> Find Out More
+                    <FaWhatsapp /> Contact us for more information
                   </a>
                 </div>
               </div>
