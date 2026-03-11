@@ -261,6 +261,27 @@ export default function App() {
 
   return (
     <>
+    <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Mr & Miss Autism Zambia",
+      url: "https://mr-and-mis-autism-i3b7-79sm6x3m9-amos-projects-fb55351d.vercel.app/",
+      logo: "https://mr-and-mis-autism-i3b7-79sm6x3m9-amos-projects-fb55351d.vercel.app/favicon.ico",
+      sameAs: [
+        "https://www.facebook.com/61556561801555/"
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+260979235167",
+        contactType: "customer support",
+        areaServed: "ZM"
+      }
+    }),
+  }}
+/>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
 
