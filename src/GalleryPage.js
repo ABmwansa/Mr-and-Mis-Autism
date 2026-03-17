@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaArrowLeft,
@@ -6,6 +6,9 @@ import {
   FaInstagram,
   FaLinkedinIn,
   FaWhatsapp,
+  FaTimes,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 
 import slide1 from "./assets/slide1.jpg";
@@ -14,6 +17,14 @@ import slide3 from "./assets/slide3.jpeg";
 import slide4 from "./assets/slide4.jpg";
 import slide5 from "./assets/slide5.jpeg";
 import slide6 from "./assets/slide6.jpg";
+import slide7 from "./assets/slide7.jpg";
+import slide8 from "./assets/slide8.jpg";
+import slide9 from "./assets/slide9.jpg";
+import slide10 from "./assets/slide10.jpg";
+import slide11 from "./assets/slide11.jpg";
+import slide12 from "./assets/slide12.jpg";
+import slide13 from "./assets/slide13.jpg";
+
 
 export default function GalleryPage() {
   const galleryImages = [
@@ -47,7 +58,44 @@ export default function GalleryPage() {
       title: "Together for Inclusion",
       text: "Working together to uplift families and create a stronger voice for autism awareness.",
     },
+    { image: slide7, title: "Gallery Moment 7", text: "More inspiring memories from the event." },
+    { image: slide8, title: "Gallery Moment 8", text: "More inspiring memories from the event." },
+    { image: slide9, title: "Gallery Moment 9", text: "More inspiring memories from the event." },
+    { image: slide10, title: "Gallery Moment 10", text: "More inspiring memories from the event." },
+    { image: slide11, title: "Gallery Moment 11", text: "More inspiring memories from the event." },
+    { image: slide12, title: "Gallery Moment 12", text: "More inspiring memories from the event." },
+    { image: slide13, title: "Gallery Moment 13", text: "More inspiring memories from the event." },
   ];
+
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const openLightbox = (index) => setActiveIndex(index);
+  const closeLightbox = () => setActiveIndex(null);
+
+  const showPrev = () => {
+    setActiveIndex((prev) =>
+      prev === 0 ? galleryImages.length - 1 : prev - 1
+    );
+  };
+
+  const showNext = () => {
+    setActiveIndex((prev) =>
+      prev === galleryImages.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (activeIndex === null) return;
+
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") showPrev();
+      if (e.key === "ArrowRight") showNext();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeIndex]);
 
   return (
     <>
@@ -192,6 +240,7 @@ export default function GalleryPage() {
           border: 1px solid #e2e8f0;
           box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
           transition: 0.3s ease;
+          cursor: pointer;
         }
 
         .gallery-card:hover {
@@ -222,6 +271,83 @@ export default function GalleryPage() {
           line-height: 1.6;
         }
 
+        .lightbox {
+          position: fixed;
+          inset: 0;
+          background: rgba(15, 23, 42, 0.92);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 3000;
+          padding: 30px;
+        }
+
+        .lightbox-content {
+          position: relative;
+          width: 100%;
+          max-width: 1100px;
+          text-align: center;
+        }
+
+        .lightbox-image {
+          width: 100%;
+          max-height: 78vh;
+          object-fit: contain;
+          border-radius: 18px;
+          background: #000;
+        }
+
+        .lightbox-caption {
+          margin-top: 18px;
+          color: white;
+        }
+
+        .lightbox-caption h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 24px;
+          margin-bottom: 8px;
+        }
+
+        .lightbox-caption p {
+          color: rgba(255,255,255,0.84);
+          max-width: 760px;
+          margin: 0 auto;
+        }
+
+        .lightbox-close,
+        .lightbox-nav {
+          position: absolute;
+          border: none;
+          border-radius: 50%;
+          width: 48px;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          background: rgba(255,255,255,0.14);
+          color: white;
+          backdrop-filter: blur(8px);
+        }
+
+        .lightbox-close {
+          top: -10px;
+          right: -10px;
+          font-size: 20px;
+        }
+
+        .lightbox-nav.left {
+          left: -20px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .lightbox-nav.right {
+          right: -20px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
         .footer {
           background: #0f172a;
           color: #cbd5e1;
@@ -229,13 +355,36 @@ export default function GalleryPage() {
           text-align: center;
         }
 
+        @media (max-width: 768px) {
+          .lightbox {
+            padding: 16px;
+          }
+
+          .lightbox-nav.left {
+            left: 6px;
+          }
+
+          .lightbox-nav.right {
+            right: 6px;
+          }
+
+          .lightbox-close {
+            top: 8px;
+            right: 8px;
+          }
+
+          .gallery-card img {
+            height: 230px;
+          }
+        }
+
         @media (max-width: 600px) {
           .logo {
             font-size: 22px;
           }
 
-          .gallery-card img {
-            height: 230px;
+          .lightbox-caption h3 {
+            font-size: 20px;
           }
         }
       `}</style>
@@ -274,8 +423,7 @@ export default function GalleryPage() {
           <div className="container">
             <h1>Full Gallery</h1>
             <p>
-              Explore more moments of joy, inclusion, growth, and celebration from
-              Mr & Miss Autism events and activities.
+              Click any image to view it in full size and browse through all gallery photos.
             </p>
           </div>
         </section>
@@ -284,7 +432,11 @@ export default function GalleryPage() {
           <div className="container">
             <div className="gallery-grid">
               {galleryImages.map((item, index) => (
-                <div className="gallery-card" key={index}>
+                <div
+                  className="gallery-card"
+                  key={index}
+                  onClick={() => openLightbox(index)}
+                >
                   <img src={item.image} alt={item.title} loading="lazy" />
                   <div className="gallery-card-content">
                     <h3>{item.title}</h3>
@@ -295,6 +447,38 @@ export default function GalleryPage() {
             </div>
           </div>
         </section>
+
+        {activeIndex !== null && (
+          <div className="lightbox" onClick={closeLightbox}>
+            <div
+              className="lightbox-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="lightbox-close" onClick={closeLightbox} aria-label="Close">
+                <FaTimes />
+              </button>
+
+              <button className="lightbox-nav left" onClick={showPrev} aria-label="Previous image">
+                <FaChevronLeft />
+              </button>
+
+              <img
+                src={galleryImages[activeIndex].image}
+                alt={galleryImages[activeIndex].title}
+                className="lightbox-image"
+              />
+
+              <button className="lightbox-nav right" onClick={showNext} aria-label="Next image">
+                <FaChevronRight />
+              </button>
+
+              <div className="lightbox-caption">
+                <h3>{galleryImages[activeIndex].title}</h3>
+                <p>{galleryImages[activeIndex].text}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <footer className="footer">
           <div className="container">
