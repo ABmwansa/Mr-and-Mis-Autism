@@ -170,7 +170,7 @@ export default function App() {
   const sponsorPackages = [
     {
       name: "Bronze Sponsor",
-      amount: "K35 000+",
+      amount: "K35,000+",
       className: "package-bronze",
       benefits: [
         "Logo on website sponsor section",
@@ -180,7 +180,7 @@ export default function App() {
     },
     {
       name: "Silver Sponsor",
-      amount: "K25 000+",
+      amount: "K25,000+",
       className: "package-silver",
       benefits: [
         "Everything in Bronze",
@@ -212,12 +212,9 @@ export default function App() {
     },
     {
       name: "Branding Slot",
-      amount: "K7 500+",
+      amount: "K7,500+",
       className: "package-platinum",
-      benefits: [
-        "Get your brand dispayed",
-        
-      ],
+      benefits: ["Get your brand displayed"],
     },
   ];
 
@@ -250,15 +247,16 @@ export default function App() {
   };
 
   const sponsorWhatsAppLink = useMemo(() => {
-    const text =
-      `Hello, I would like to find out more about sponsoring Mr & Miss Autism.%0A%0A` +
-      `Name: ${sponsorForm.name}%0A` +
-      `Company: ${sponsorForm.company}%0A` +
-      `Phone: ${sponsorForm.phone}%0A` +
-      `Email: ${sponsorForm.email}%0A` +
-      `Package Interest: ${sponsorForm.package}%0A` +
-      `Message: ${sponsorForm.message}`;
-    return `https://wa.me/260979235167?text=${text}`;
+    const message = `Hello, I would like to find out more about sponsoring Mr & Miss Autism.
+
+Name: ${sponsorForm.name || "-"}
+Company: ${sponsorForm.company || "-"}
+Phone: ${sponsorForm.phone || "-"}
+Email: ${sponsorForm.email || "-"}
+Package Interest: ${sponsorForm.package || "-"}
+Message: ${sponsorForm.message || "-"}`;
+
+    return `https://wa.me/260979235167?text=${encodeURIComponent(message)}`;
   }, [sponsorForm]);
 
   const handleSponsorSubmit = (e) => {
@@ -1264,14 +1262,8 @@ export default function App() {
               <a href="#programs">Programs</a>
               <a href="#impact">Impact</a>
               <a href="#contact">Contact</a>
-              <a
-                href="#sponsorship-payment"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-primary"
-              >
-                
-                <FaHeart href="#sponsorship-payment"/> Donate
+              <a href="#sponsorship-packages" className="btn btn-primary">
+                <FaHeart /> Donate
               </a>
             </div>
           </div>
@@ -1294,7 +1286,7 @@ export default function App() {
                   <FaHandsHelping /> View Gallery
                 </a>
 
-                <a href="#sponsorship-payment" className="btn btn-dark">
+                <a href="#sponsorship-packages" className="btn btn-dark">
                   <FaHandshake /> Become a Sponsor
                 </a>
               </div>
@@ -1509,7 +1501,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="section-title" style={{ marginTop: "56px" }}>
+              <div id="sponsorship-packages" className="section-title" style={{ marginTop: "56px", scrollMarginTop: "120px" }}>
                 <h2>Sponsorship Packages</h2>
                 <p>
                   Choose a package that fits your brand goals, then proceed to the sponsorship payment details below.
@@ -1930,7 +1922,7 @@ export default function App() {
                   <FaWhatsapp /> Donate on WhatsApp
                 </a>
 
-                <a href="#sponsorship-payment" className="btn btn-dark">
+                <a href="#sponsorship-packages" className="btn btn-dark">
                   <FaHandshake /> Become a Sponsor
                 </a>
               </div>
