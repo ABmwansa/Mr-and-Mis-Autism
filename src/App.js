@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState, Suspense } from "react";
-import {
+import { Link } from "react-router-dom";import {
   FaWhatsapp,
   FaHeart,
   FaHandsHelping,
@@ -1357,15 +1357,21 @@ Message: ${sponsorForm.message || "-"}`;
             </div>
 
             <div className="slider-dots">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  className={`dot ${currentSlide === index ? "active" : ""}`}
-                  onClick={() => setCurrentSlide(index)}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
+  {slides.map((_, index) => (
+    <button
+      key={index}
+      className={`dot ${currentSlide === index ? "active" : ""}`}
+      onClick={() => setCurrentSlide(index)}
+      aria-label={`Go to slide ${index + 1}`}
+    />
+  ))}
+</div>
+
+<div style={{ textAlign: "center", marginTop: "28px" }}>
+  <Link to="/gallery" className="btn btn-primary">
+    View More
+  </Link>
+</div>
           </div>
         </section>
 
