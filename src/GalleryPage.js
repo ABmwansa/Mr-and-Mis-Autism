@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   FaArrowLeft,
@@ -25,64 +25,91 @@ import slide11 from "./assets/slide11.jpg";
 import slide12 from "./assets/slide12.jpg";
 import slide13 from "./assets/slide13.jpg";
 
+const galleryImages = [
+  {
+    image: slide1,
+    title: "Celebrating Every Child",
+    text: "Creating joyful and inclusive spaces where children with autism are seen and celebrated.",
+  },
+  {
+    image: slide2,
+    title: "Moments of Confidence",
+    text: "Building confidence, visibility, and self-expression through meaningful community experiences.",
+  },
+  {
+    image: slide3,
+    title: "A Community of Support",
+    text: "Bringing together families, caregivers, and supporters around a shared purpose.",
+  },
+  {
+    image: slide4,
+    title: "Inclusion in Action",
+    text: "Promoting awareness and acceptance through events, storytelling, and connection.",
+  },
+  {
+    image: slide5,
+    title: "Shared Joy and Growth",
+    text: "Creating meaningful memories that reflect community, belonging, and confidence.",
+  },
+  {
+    image: slide6,
+    title: "Together for Inclusion",
+    text: "Working together to uplift families and create a stronger voice for autism awareness.",
+  },
+  {
+    image: slide7,
+    title: "Gallery Moment 7",
+    text: "More inspiring memories from the event.",
+  },
+  {
+    image: slide8,
+    title: "Gallery Moment 8",
+    text: "More inspiring memories from the event.",
+  },
+  {
+    image: slide9,
+    title: "Gallery Moment 9",
+    text: "More inspiring memories from the event.",
+  },
+  {
+    image: slide10,
+    title: "Gallery Moment 10",
+    text: "More inspiring memories from the event.",
+  },
+  {
+    image: slide11,
+    title: "Gallery Moment 11",
+    text: "More inspiring memories from the event.",
+  },
+  {
+    image: slide12,
+    title: "Gallery Moment 12",
+    text: "More inspiring memories from the event.",
+  },
+  {
+    image: slide13,
+    title: "Gallery Moment 13",
+    text: "More inspiring memories from the event.",
+  },
+];
 
 export default function GalleryPage() {
-  const galleryImages = [
-    {
-      image: slide1,
-      title: "Celebrating Every Child",
-      text: "Creating joyful and inclusive spaces where children with autism are seen and celebrated.",
-    },
-    {
-      image: slide2,
-      title: "Moments of Confidence",
-      text: "Building confidence, visibility, and self-expression through meaningful community experiences.",
-    },
-    {
-      image: slide3,
-      title: "A Community of Support",
-      text: "Bringing together families, caregivers, and supporters around a shared purpose.",
-    },
-    {
-      image: slide4,
-      title: "Inclusion in Action",
-      text: "Promoting awareness and acceptance through events, storytelling, and connection.",
-    },
-    {
-      image: slide5,
-      title: "Shared Joy and Growth",
-      text: "Creating meaningful memories that reflect community, belonging, and confidence.",
-    },
-    {
-      image: slide6,
-      title: "Together for Inclusion",
-      text: "Working together to uplift families and create a stronger voice for autism awareness.",
-    },
-    { image: slide7, title: "Gallery Moment 7", text: "More inspiring memories from the event." },
-    { image: slide8, title: "Gallery Moment 8", text: "More inspiring memories from the event." },
-    { image: slide9, title: "Gallery Moment 9", text: "More inspiring memories from the event." },
-    { image: slide10, title: "Gallery Moment 10", text: "More inspiring memories from the event." },
-    { image: slide11, title: "Gallery Moment 11", text: "More inspiring memories from the event." },
-    { image: slide12, title: "Gallery Moment 12", text: "More inspiring memories from the event." },
-    { image: slide13, title: "Gallery Moment 13", text: "More inspiring memories from the event." },
-  ];
-
   const [activeIndex, setActiveIndex] = useState(null);
 
   const openLightbox = (index) => setActiveIndex(index);
   const closeLightbox = () => setActiveIndex(null);
 
-  const showPrev = () => {
+  const showPrev = useCallback(() => {
     setActiveIndex((prev) =>
       prev === 0 ? galleryImages.length - 1 : prev - 1
     );
-  };
+  }, []);
 
-  const showNext = () => {
+  const showNext = useCallback(() => {
     setActiveIndex((prev) =>
       prev === galleryImages.length - 1 ? 0 : prev + 1
     );
-  };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -95,7 +122,7 @@ export default function GalleryPage() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeIndex]);
+  }, [activeIndex, showPrev, showNext]);
 
   return (
     <>
@@ -152,6 +179,12 @@ export default function GalleryPage() {
         .socials a {
           color: white;
           font-size: 15px;
+          transition: 0.3s;
+        }
+
+        .socials a:hover {
+          transform: translateY(-2px);
+          opacity: 0.85;
         }
 
         .navbar {
@@ -355,6 +388,28 @@ export default function GalleryPage() {
           text-align: center;
         }
 
+        .whatsapp-float {
+          position: fixed;
+          right: 22px;
+          bottom: 22px;
+          width: 62px;
+          height: 62px;
+          border-radius: 50%;
+          background: #25D366;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 30px;
+          box-shadow: 0 18px 35px rgba(0,0,0,0.22);
+          z-index: 2000;
+          transition: 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+          transform: scale(1.08);
+        }
+
         @media (max-width: 768px) {
           .lightbox {
             padding: 16px;
@@ -454,11 +509,19 @@ export default function GalleryPage() {
               className="lightbox-content"
               onClick={(e) => e.stopPropagation()}
             >
-              <button className="lightbox-close" onClick={closeLightbox} aria-label="Close">
+              <button
+                className="lightbox-close"
+                onClick={closeLightbox}
+                aria-label="Close"
+              >
                 <FaTimes />
               </button>
 
-              <button className="lightbox-nav left" onClick={showPrev} aria-label="Previous image">
+              <button
+                className="lightbox-nav left"
+                onClick={showPrev}
+                aria-label="Previous image"
+              >
                 <FaChevronLeft />
               </button>
 
@@ -468,7 +531,11 @@ export default function GalleryPage() {
                 className="lightbox-image"
               />
 
-              <button className="lightbox-nav right" onClick={showNext} aria-label="Next image">
+              <button
+                className="lightbox-nav right"
+                onClick={showNext}
+                aria-label="Next image"
+              >
                 <FaChevronRight />
               </button>
 
@@ -490,22 +557,8 @@ export default function GalleryPage() {
           href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20Mr%20and%20Miss%20Autism"
           target="_blank"
           rel="noreferrer"
-          style={{
-            position: "fixed",
-            right: "22px",
-            bottom: "22px",
-            width: "62px",
-            height: "62px",
-            borderRadius: "50%",
-            background: "#25D366",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "30px",
-            boxShadow: "0 18px 35px rgba(0,0,0,0.22)",
-            zIndex: 2000,
-          }}
+          className="whatsapp-float"
+          title="Chat on WhatsApp"
         >
           <FaWhatsapp />
         </a>
