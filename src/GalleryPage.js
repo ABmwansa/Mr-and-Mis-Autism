@@ -58,17 +58,17 @@ const galleryImages = [
   },
   {
     image: slide7,
-    title: "Gallery Moment 7",
+    title: "Gallery Moment ",
     text: "More inspiring memories from the event.",
   },
   {
     image: slide8,
-    title: "Gallery Moment 8",
+    title: "Gallery Moment ",
     text: "More inspiring memories from the event.",
   },
   {
     image: slide9,
-    title: "Gallery Moment 9",
+    title: "Gallery Moment ",
     text: "More inspiring memories from the event.",
   },
   {
@@ -78,17 +78,17 @@ const galleryImages = [
   },
   {
     image: slide11,
-    title: "Gallery Moment 11",
+    title: "Gallery Moment ",
     text: "More inspiring memories from the event.",
   },
   {
     image: slide12,
-    title: "Gallery Moment 12",
+    title: "Gallery Moment ",
     text: "More inspiring memories from the event.",
   },
   {
     image: slide13,
-    title: "Gallery Moment 13",
+    title: "Gallery Moment ",
     text: "More inspiring memories from the event.",
   },
 ];
