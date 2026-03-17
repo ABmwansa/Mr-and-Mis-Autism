@@ -37,6 +37,8 @@ import sponsor2 from "./assets/sponsor logos/mulenga.png";
 import sponsor3 from "./assets/sponsor logos/special.png";
 import sponsor4 from "./assets/sponsor logos/zesco.png";
 import sponsor5 from "./assets/sponsor logos/multisensory.png";
+import sponsor6 from "./assets/sponsor logos/Logo6.png";
+import sponsor7 from "./assets/sponsor logos/logo7.jpeg";
 
 function SectionLoader({ minHeight = "300px" }) {
   return (
@@ -170,7 +172,7 @@ export default function App() {
   const sponsorPackages = [
     {
       name: "Bronze Sponsor",
-      amount: "K35,000+",
+      amount: "K25,000+",
       className: "package-bronze",
       benefits: [
         "Logo on website sponsor section",
@@ -180,7 +182,7 @@ export default function App() {
     },
     {
       name: "Silver Sponsor",
-      amount: "K25,000+",
+      amount: "K35,000+",
       className: "package-silver",
       benefits: [
         "Everything in Bronze",
@@ -1603,6 +1605,22 @@ Message: ${sponsorForm.message || "-"}`;
                   className="logo-card sponsor-logo-link"
                 >
                   <img src={sponsor5} alt="Multisensory School" className="sponsor-logo-img" loading="lazy" decoding="async" />
+                </a>
+                <a
+                  href="https://multisensoryschool.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="logo-card sponsor-logo-link"
+                >
+                  <img src={sponsor6} alt="Multisensory School" className="sponsor-logo-img" loading="lazy" decoding="async" />
+                </a>
+                <a
+                  href="https://multisensoryschool.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="logo-card sponsor-logo-link"
+                >
+                  <img src={sponsor7} alt="Multisensory School" className="sponsor-logo-img" loading="lazy" decoding="async" />
                 </a>
               </div>
 
