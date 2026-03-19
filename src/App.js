@@ -39,6 +39,7 @@ import sponsor4 from "./assets/sponsor logos/zesco.png";
 import sponsor5 from "./assets/sponsor logos/multisensory.png";
 import sponsor6 from "./assets/sponsor logos/Logo6.png";
 import sponsor7 from "./assets/sponsor logos/logo7.jpeg";
+import sponsor8 from "./assets/sponsor logos/Logo.jpg.jpeg";
 
 function SectionLoader({ minHeight = "300px" }) {
   return (
@@ -1627,6 +1628,14 @@ Message: ${sponsorForm.message || "-"}`;
                   className="logo-card sponsor-logo-link"
                 >
                   <img src={sponsor7} alt="Multisensory School" className="sponsor-logo-img" loading="lazy" decoding="async" />
+                </a>
+                <a
+                  href="http://www.circuszambia.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="logo-card sponsor-logo-link"
+                >
+                  <img src={sponsor8} alt="Multisensory School" className="sponsor-logo-img" loading="lazy" decoding="async" />
                 </a>
               </div>
 
