@@ -221,6 +221,91 @@ export default function App() {
     },
   ];
 
+  const quickLinks = [
+    {
+      icon: <FaPuzzlePiece />,
+      title: "About Autism",
+      text: "Learn what autism is, why inclusion matters, and how community understanding changes lives.",
+      href: "#about",
+    },
+    {
+      icon: <FaUsers />,
+      title: "Support for Families",
+      text: "See how we create visibility, support, and safer spaces for children, parents, and caregivers.",
+      href: "#programs",
+    },
+    {
+      icon: <FaCalendarAlt />,
+      title: "Upcoming Event",
+      text: "Get the details for the 2026 pageant and talent show, including time, venue, and contact options.",
+      href: "#upcoming-event",
+    },
+  ];
+
+  const supportWays = [
+    {
+      icon: <FaHeart />,
+      title: "Make a Donation",
+      text: "Support awareness activities, family outreach, and events that give children a platform to shine.",
+      href: "https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20donate%20to%20Mr%20and%20Miss%20Autism",
+      external: true,
+      cta: "Donate on WhatsApp",
+    },
+    {
+      icon: <FaHandshake />,
+      title: "Become a Sponsor",
+      text: "Partner with us through sponsorship packages that increase visibility and help fund meaningful work.",
+      href: "#sponsorship-packages",
+      cta: "View packages",
+    },
+    {
+      icon: <FaHandsHelping />,
+      title: "Join the Community",
+      text: "Follow our work, attend events, and help build a society where autistic children are celebrated and supported.",
+      href: "#contact",
+      cta: "Stay connected",
+    },
+  ];
+
+  const updates = [
+    {
+      title: "Mr & Miss Autism 2026 is coming up",
+      date: "18 April 2026",
+      text: "Our next event will celebrate confidence, talent, and inclusion with families, supporters, and community partners.",
+      href: "#upcoming-event",
+    },
+    {
+      title: "Gallery highlights from past events",
+      date: "Featured collection",
+      text: "Browse moments of joy, creativity, and belonging from previous gatherings and celebrations.",
+      href: "#gallery-highlights",
+    },
+    {
+      title: "Sponsorship and partner opportunities open",
+      date: "Ongoing",
+      text: "Organizations can support the event through sponsorship packages, branding opportunities, and community partnership.",
+      href: "#sponsors",
+    },
+  ];
+
+  const smallDonationOptions = [
+    {
+      amount: "K50",
+      title: "Snack Support",
+      text: "Helps contribute to refreshments or a small comfort item for a child or family during an event day.",
+    },
+    {
+      amount: "K100",
+      title: "Activity Support",
+      text: "Helps support a small awareness activity, craft materials, or child-friendly engagement resources.",
+    },
+    {
+      amount: "K250",
+      title: "Family Support",
+      text: "Helps cover practical event support for families and strengthen inclusive participation.",
+    },
+  ];
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [sponsorForm, setSponsorForm] = useState({
     name: "",
@@ -230,6 +315,23 @@ export default function App() {
     package: "Gold Sponsor",
     message: "",
   });
+  const [selectedSponsorPackage, setSelectedSponsorPackage] = useState("Gold Sponsor");
+  const [sponsorSubmission, setSponsorSubmission] = useState(null);
+  const [sponsorFormError, setSponsorFormError] = useState("");
+
+  const resetSponsorForm = (packageName = "Gold Sponsor") => {
+    setSelectedSponsorPackage(packageName);
+    setSponsorSubmission(null);
+    setSponsorFormError("");
+    setSponsorForm({
+      name: "",
+      company: "",
+      phone: "",
+      email: "",
+      package: packageName,
+      message: "",
+    });
+  };
 
   useEffect(() => {
     document.title = "Mr & Miss Autism | Inclusion, Awareness & Sponsorship";
@@ -246,7 +348,31 @@ export default function App() {
 
   const handleSponsorChange = (e) => {
     const { name, value } = e.target;
+    if (sponsorFormError) {
+      setSponsorFormError("");
+    }
     setSponsorForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSponsorPackageSelect = (pkg) => {
+    setSelectedSponsorPackage(pkg.name);
+    setSponsorSubmission(null);
+    setSponsorFormError("");
+    setSponsorForm((prev) => ({
+      ...prev,
+      package: pkg.name,
+      message:
+        prev.message ||
+        `We are interested in the ${pkg.name} package (${pkg.amount}) and would like to receive the next sponsorship steps.`,
+    }));
+
+    document.getElementById("sponsor-enquiry")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleChooseAnotherPackage = () => {
+    setSponsorSubmission(null);
+    setSponsorFormError("");
+    document.getElementById("sponsorship-packages")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const sponsorWhatsAppLink = useMemo(() => {
@@ -264,7 +390,25 @@ Message: ${sponsorForm.message || "-"}`;
 
   const handleSponsorSubmit = (e) => {
     e.preventDefault();
-    window.open(sponsorWhatsAppLink, "_blank", "noopener,noreferrer");
+    if (!sponsorForm.name || !sponsorForm.company || !sponsorForm.phone || !sponsorForm.email) {
+      setSponsorFormError("Please complete your name, company, phone number, and email before submitting.");
+      return;
+    }
+
+    const reference = `MMA-SP-${Date.now().toString().slice(-6)}`;
+    setSponsorSubmission({
+      reference,
+      submittedAt: new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+      package: sponsorForm.package,
+      name: sponsorForm.name,
+      company: sponsorForm.company,
+    });
+    setSponsorFormError("");
+    document.getElementById("sponsor-enquiry")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -281,8 +425,12 @@ Message: ${sponsorForm.message || "-"}`;
 
         body {
           font-family: 'DM Sans', sans-serif;
-          background: #f8fafc;
-          color: #1e293b;
+          background:
+            radial-gradient(circle at top left, rgba(109, 40, 217, 0.14), transparent 26%),
+            radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 28%),
+            radial-gradient(circle at 50% 30%, rgba(15, 118, 110, 0.08), transparent 30%),
+            #f4f7fb;
+          color: #16324f;
         }
 
         a {
@@ -296,15 +444,15 @@ Message: ${sponsorForm.message || "-"}`;
 
         .container {
           width: 90%;
-          max-width: 1200px;
+          max-width: 1240px;
           margin: 0 auto;
         }
 
         .topbar {
-          background: #6d28d9;
-          color: white;
+          background: #0f2742;
+          color: #e2ecf7;
           font-size: 14px;
-          padding: 10px 0;
+          padding: 12px 0;
         }
 
         .topbar-content {
@@ -313,6 +461,27 @@ Message: ${sponsorForm.message || "-"}`;
           align-items: center;
           gap: 15px;
           flex-wrap: wrap;
+        }
+
+        .topbar-links {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          flex-wrap: wrap;
+        }
+
+        .topbar-links > a:not(.btn),
+        .topbar-links button {
+          color: #e2ecf7;
+          font: inherit;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+        }
+
+        .topbar-links > a:not(.btn):hover,
+        .topbar-links button:hover {
+          color: white;
         }
 
         .socials {
@@ -335,16 +504,16 @@ Message: ${sponsorForm.message || "-"}`;
           position: sticky;
           top: 0;
           z-index: 1000;
-          background: rgba(255,255,255,0.92);
+          background: rgba(255,255,255,0.97);
           backdrop-filter: blur(12px);
-          border-bottom: 1px solid #e2e8f0;
+          border-bottom: 1px solid #d8e3ef;
         }
 
         .nav-content {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 18px 0;
+          padding: 16px 0;
           gap: 20px;
           flex-wrap: wrap;
         }
@@ -353,29 +522,30 @@ Message: ${sponsorForm.message || "-"}`;
           font-family: 'Poppins', sans-serif;
           font-size: 28px;
           font-weight: 800;
-          color: #6d28d9;
+          color: #0f2742;
           line-height: 1.1;
         }
 
         .logo span {
-          color: #f97316;
+          color: #0f766e;
         }
 
         .nav-links {
           display: flex;
           align-items: center;
-          gap: 22px;
+          gap: 18px;
           flex-wrap: wrap;
         }
 
         .nav-links a {
-          color: #334155;
-          font-weight: 600;
+          color: #34506c;
+          font-weight: 700;
           transition: 0.3s;
+          font-size: 15px;
         }
 
         .nav-links a:hover {
-          color: #6d28d9;
+          color: #0f766e;
         }
 
         .btn {
@@ -392,14 +562,18 @@ Message: ${sponsorForm.message || "-"}`;
         }
 
         .btn-primary {
-          background: linear-gradient(135deg, #f97316, #ea580c);
+          background: linear-gradient(135deg, #e16935, #c84a1d);
           color: white;
-          box-shadow: 0 12px 25px rgba(249, 115, 22, 0.25);
+          box-shadow: 0 12px 25px rgba(216, 91, 43, 0.22);
         }
 
         .btn-primary:hover,
         .btn-whatsapp:hover,
         .btn-dark:hover {
+          transform: translateY(-2px);
+        }
+
+        .btn-secondary:hover {
           transform: translateY(-2px);
         }
 
@@ -410,51 +584,59 @@ Message: ${sponsorForm.message || "-"}`;
         }
 
         .btn-dark {
-          background: #0f172a;
+          background: #0f2742;
           color: white;
-          box-shadow: 0 12px 25px rgba(15, 23, 42, 0.18);
+          box-shadow: 0 12px 25px rgba(15, 39, 66, 0.18);
+        }
+
+        .btn-secondary {
+          background: white;
+          color: #0f2742;
+          border: 1px solid #c6d5e4;
+          box-shadow: 0 10px 24px rgba(15, 39, 66, 0.08);
         }
 
         .hero {
-          min-height: 92vh;
+          min-height: auto;
           display: flex;
           align-items: center;
           background:
-            radial-gradient(circle at top left, rgba(109, 40, 217, 0.15), transparent 35%),
-            radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.15), transparent 35%),
-            linear-gradient(180deg, #ffffff, #f8fafc);
+            radial-gradient(circle at top left, rgba(109, 40, 217, 0.16), transparent 32%),
+            radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.16), transparent 34%),
+            linear-gradient(180deg, #ffffff 0%, #f7f9fd 100%);
         }
 
         .hero-grid {
           display: grid;
-          grid-template-columns: 1.1fr 0.9fr;
-          gap: 40px;
-          align-items: center;
-          padding: 60px 0;
+          grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+          gap: 32px;
+          align-items: start;
+          padding: 52px 0 28px;
         }
 
         .hero-badge {
           display: inline-block;
-          background: #ede9fe;
+          background: linear-gradient(135deg, #ede9fe, #ffe7d6);
           color: #6d28d9;
-          padding: 10px 16px;
+          padding: 8px 14px;
           border-radius: 999px;
           font-weight: 700;
           margin-bottom: 18px;
-          font-size: 14px;
+          font-size: 13px;
+          letter-spacing: 0.01em;
         }
 
         .hero h1 {
           font-family: 'Poppins', sans-serif;
-          font-size: clamp(2.4rem, 5vw, 4.6rem);
+          font-size: clamp(2.4rem, 5vw, 4.2rem);
           line-height: 1.08;
           margin-bottom: 18px;
-          color: #0f172a;
+          color: #0f2742;
         }
 
         .hero p {
           font-size: 18px;
-          color: #475569;
+          color: #4f657c;
           max-width: 620px;
           margin-bottom: 28px;
         }
@@ -463,21 +645,38 @@ Message: ${sponsorForm.message || "-"}`;
           display: flex;
           gap: 14px;
           flex-wrap: wrap;
+          margin-bottom: 22px;
+        }
+
+        .hero-meta {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .hero-meta span {
+          background: white;
+          border: 1px solid #d7e3ef;
+          border-radius: 999px;
+          padding: 10px 14px;
+          font-weight: 700;
+          color: #34506c;
+          font-size: 14px;
         }
 
         .hero-card {
           background: white;
           padding: 22px;
-          border-radius: 28px;
-          box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12);
-          border: 1px solid #e2e8f0;
+          border-radius: 24px;
+          box-shadow: 0 22px 48px rgba(15, 39, 66, 0.08);
+          border: 1px solid #d9e4ef;
         }
 
         .hero-card img {
           width: 100%;
-          height: 420px;
+          height: 360px;
           object-fit: cover;
-          border-radius: 22px;
+          border-radius: 18px;
           margin-bottom: 18px;
         }
 
@@ -485,12 +684,121 @@ Message: ${sponsorForm.message || "-"}`;
           font-family: 'Poppins', sans-serif;
           font-size: 24px;
           margin-bottom: 10px;
-          color: #0f172a;
+          color: #0f2742;
         }
 
         .hero-card p {
           font-size: 16px;
           margin-bottom: 18px;
+        }
+
+        .hero-card-label {
+          color: #0f766e;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          font-size: 12px;
+          margin-bottom: 12px;
+        }
+
+        .hero-quick-grid,
+        .support-grid,
+        .updates-grid,
+        .small-donation-grid,
+        .definition-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 20px;
+        }
+
+        .hero-quick-grid {
+          margin: 0 0 18px;
+        }
+
+        .quick-card,
+        .support-card,
+        .update-card,
+        .community-card,
+        .small-donation-card,
+        .definition-card {
+          background: white;
+          border: 1px solid #d9e4ef;
+          border-radius: 22px;
+          padding: 24px;
+          box-shadow: 0 12px 32px rgba(15, 39, 66, 0.06);
+        }
+
+        .quick-card-icon,
+        .support-card-icon {
+          width: 54px;
+          height: 54px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 16px;
+          background: #e7f1fa;
+          color: #0f4f85;
+          font-size: 22px;
+          margin-bottom: 16px;
+        }
+
+        .quick-card h3,
+        .support-card h3,
+        .update-card h3,
+        .community-card h3,
+        .small-donation-card h3,
+        .definition-card h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 22px;
+          color: #0f2742;
+          margin-bottom: 10px;
+        }
+
+        .quick-card p,
+        .support-card p,
+        .update-card p,
+        .community-card p,
+        .small-donation-card p,
+        .definition-card p {
+          color: #4f657c;
+          margin-bottom: 18px;
+        }
+
+        .definition-grid {
+          grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+          align-items: stretch;
+        }
+
+        .definition-card.featured-definition {
+          background: linear-gradient(135deg, #fff7ed, #f5f3ff);
+          border-color: #e9d5ff;
+        }
+
+        .definition-highlight {
+          display: inline-block;
+          padding: 8px 12px;
+          border-radius: 999px;
+          background: #ede9fe;
+          color: #6d28d9;
+          font-weight: 800;
+          font-size: 13px;
+          margin-bottom: 14px;
+        }
+
+        .small-donation-card {
+          background: linear-gradient(180deg, #ffffff, #faf7ff);
+        }
+
+        .donation-amount {
+          font-family: 'Poppins', sans-serif;
+          font-size: 34px;
+          color: #6d28d9;
+          margin-bottom: 10px;
+        }
+
+        .text-link {
+          color: #0f4f85;
+          font-weight: 800;
         }
 
         section {
@@ -506,13 +814,29 @@ Message: ${sponsorForm.message || "-"}`;
         .section-title h2 {
           font-family: 'Poppins', sans-serif;
           font-size: clamp(2rem, 4vw, 3rem);
-          color: #0f172a;
+          color: #0f2742;
           margin-bottom: 12px;
         }
 
         .section-title p {
-          color: #64748b;
+          color: #5b7289;
           font-size: 17px;
+        }
+
+        .muted-section {
+          background:
+            radial-gradient(circle at left top, rgba(109, 40, 217, 0.09), transparent 26%),
+            radial-gradient(circle at right bottom, rgba(249, 115, 22, 0.08), transparent 28%),
+            linear-gradient(180deg, #eef4fa, #f7fbff);
+          border-top: 1px solid #dde7f0;
+          border-bottom: 1px solid #dde7f0;
+        }
+
+        .sponsor-section-wrap {
+          background:
+            radial-gradient(circle at top left, rgba(109, 40, 217, 0.13), transparent 24%),
+            radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.13), transparent 24%),
+            linear-gradient(180deg, #ffffff, #f5f7fc);
         }
 
         .slider-section {
@@ -522,10 +846,10 @@ Message: ${sponsorForm.message || "-"}`;
         .slider-shell {
           position: relative;
           overflow: hidden;
-          border-radius: 30px;
+          border-radius: 24px;
           min-height: 520px;
-          background: #0f172a;
-          box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+          background: #0f2742;
+          box-shadow: 0 20px 60px rgba(15, 39, 66, 0.14);
         }
 
         .slider-track {
@@ -550,7 +874,7 @@ Message: ${sponsorForm.message || "-"}`;
         .slide-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(90deg, rgba(15,23,42,0.72), rgba(15,23,42,0.28));
+          background: linear-gradient(90deg, rgba(15,39,66,0.8), rgba(15,39,66,0.3));
           display: flex;
           align-items: flex-end;
           padding: 40px;
@@ -611,7 +935,7 @@ Message: ${sponsorForm.message || "-"}`;
         }
 
         .dot.active {
-          background: #6d28d9;
+          background: #0f4f85;
           transform: scale(1.15);
         }
 
@@ -662,8 +986,8 @@ Message: ${sponsorForm.message || "-"}`;
           background: white;
           border-radius: 24px;
           padding: 28px;
-          border: 1px solid #e2e8f0;
-          box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+          border: 1px solid #d9e4ef;
+          box-shadow: 0 12px 35px rgba(15, 39, 66, 0.06);
           transition: 0.3s ease;
           position: relative;
           overflow: hidden;
@@ -682,7 +1006,7 @@ Message: ${sponsorForm.message || "-"}`;
           bottom: 0;
           width: 0;
           height: 4px;
-          background: linear-gradient(90deg, #6d28d9, #f97316);
+          background: linear-gradient(90deg, #0f4f85, #d85b2b);
           transition: width 0.35s ease;
           border-bottom-left-radius: 24px;
           border-bottom-right-radius: 24px;
@@ -720,7 +1044,7 @@ Message: ${sponsorForm.message || "-"}`;
           font-family: 'Poppins', sans-serif;
           font-size: 22px;
           margin-bottom: 12px;
-          color: #0f172a;
+          color: #0f2742;
         }
 
         .about-card p,
@@ -741,14 +1065,17 @@ Message: ${sponsorForm.message || "-"}`;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, #ede9fe, #fdf2f8);
+          background: linear-gradient(135deg, #ede9fe, #ffe6d5);
           color: #6d28d9;
           font-size: 26px;
           margin-bottom: 18px;
         }
 
         .event-section-wrap {
-          background: linear-gradient(135deg, #fff7ed, #f5f3ff);
+          background:
+            radial-gradient(circle at top right, rgba(249, 115, 22, 0.1), transparent 24%),
+            radial-gradient(circle at bottom left, rgba(109, 40, 217, 0.1), transparent 26%),
+            linear-gradient(180deg, #fff7ed, #f5f3ff);
           padding-top: 70px;
         }
 
@@ -759,7 +1086,7 @@ Message: ${sponsorForm.message || "-"}`;
 
         .event-tag {
           display: inline-block;
-          background: #6d28d9;
+          background: #0f4f85;
           color: #fff;
           padding: 10px 16px;
           border-radius: 999px;
@@ -769,12 +1096,12 @@ Message: ${sponsorForm.message || "-"}`;
         }
 
         .event-theme {
-          background: #f8fafc;
-          border-left: 5px solid #f97316;
+          background: #f7fbff;
+          border-left: 5px solid #d85b2b;
           padding: 18px;
           border-radius: 16px;
           margin: 20px 0 24px;
-          color: #0f172a;
+          color: #0f2742;
           font-weight: 700;
           font-size: 18px;
         }
@@ -790,7 +1117,7 @@ Message: ${sponsorForm.message || "-"}`;
           display: flex;
           align-items: flex-start;
           gap: 14px;
-          background: #f8fafc;
+          background: #f7fbff;
           padding: 16px;
           border-radius: 16px;
         }
@@ -800,8 +1127,8 @@ Message: ${sponsorForm.message || "-"}`;
           min-width: 42px;
           height: 42px;
           border-radius: 12px;
-          background: #ede9fe;
-          color: #6d28d9;
+          background: #dcecf9;
+          color: #0f4f85;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -823,7 +1150,7 @@ Message: ${sponsorForm.message || "-"}`;
         }
 
         .event-person {
-          background: linear-gradient(135deg, #0f766e, #115e59);
+          background: linear-gradient(135deg, #0f4f85, #0f766e);
           color: white;
           border-radius: 16px;
           padding: 16px 18px;
@@ -861,10 +1188,6 @@ Message: ${sponsorForm.message || "-"}`;
           margin-top: 24px;
         }
 
-        .sponsor-section-wrap {
-          background: linear-gradient(180deg, #ffffff, #f8fafc);
-        }
-
         .package-badge {
           display: inline-block;
           padding: 8px 14px;
@@ -898,7 +1221,7 @@ Message: ${sponsorForm.message || "-"}`;
           font-family: 'Poppins', sans-serif;
           font-size: 30px;
           font-weight: 800;
-          color: #0f172a;
+          color: #0f2742;
           margin-bottom: 14px;
         }
 
@@ -906,6 +1229,34 @@ Message: ${sponsorForm.message || "-"}`;
           display: grid;
           gap: 10px;
           margin: 18px 0 22px;
+        }
+
+        .package-card.selected-package {
+          border-color: #6d28d9;
+          box-shadow: 0 22px 42px rgba(109, 40, 217, 0.18);
+          background: linear-gradient(180deg, #faf5ff, #fff7ed);
+        }
+
+        .package-card.selected-package::after {
+          width: 100%;
+        }
+
+        .package-status {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 14px;
+          padding: 8px 12px;
+          background: #e7f4ef;
+          color: #0f766e;
+          border-radius: 999px;
+          font-size: 13px;
+          font-weight: 800;
+        }
+
+        .package-card.package-gold,
+        .package-card.package-platinum {
+          background: linear-gradient(180deg, #ffffff, #faf7ff);
         }
 
         .package-item {
@@ -930,7 +1281,7 @@ Message: ${sponsorForm.message || "-"}`;
           font-family: 'Poppins', sans-serif;
           font-weight: 700;
           color: #64748b;
-          background: linear-gradient(135deg, #ffffff, #f8fafc);
+          background: linear-gradient(135deg, #ffffff, #f8f4ff);
         }
 
         .sponsor-logo-link {
@@ -957,7 +1308,7 @@ Message: ${sponsorForm.message || "-"}`;
 
         .sponsor-cta-bar {
           margin-top: 36px;
-          background: linear-gradient(135deg, #6d28d9, #4f46e5);
+          background: linear-gradient(135deg, #0f2742, #0f4f85);
           color: white;
           padding: 28px;
           border-radius: 24px;
@@ -980,6 +1331,107 @@ Message: ${sponsorForm.message || "-"}`;
           margin-top: 18px;
         }
 
+        .form-helper {
+          color: #5b7289;
+          font-size: 14px;
+          margin-top: -4px;
+        }
+
+        .form-actions-row {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .form-error {
+          background: #fff1f2;
+          border: 1px solid #fecdd3;
+          color: #be123c;
+          border-radius: 14px;
+          padding: 12px 14px;
+          font-size: 14px;
+          font-weight: 700;
+        }
+
+        .selected-package-banner,
+        .sponsor-success-card,
+        .sponsor-process {
+          border: 1px solid #d9e4ef;
+          border-radius: 18px;
+          padding: 18px;
+          background: #f7fbff;
+        }
+
+        .selected-package-banner {
+          margin-top: 18px;
+          background: linear-gradient(135deg, #faf5ff, #fff1e8);
+          border-color: #e9d5ff;
+        }
+
+        .selected-package-banner strong,
+        .sponsor-success-card strong {
+          color: #0f2742;
+        }
+
+        .sponsor-success-card {
+          margin-top: 18px;
+          background: linear-gradient(135deg, #faf5ff, #fef3c7);
+          border-color: #e9d5ff;
+        }
+
+        .sponsor-success-card h4,
+        .sponsor-process h4 {
+          font-family: 'Poppins', sans-serif;
+          color: #0f2742;
+          margin-bottom: 10px;
+          font-size: 18px;
+        }
+
+        .sponsor-success-meta {
+          display: grid;
+          gap: 10px;
+          margin: 14px 0 0;
+        }
+
+        .sponsor-success-meta div {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 10px 0;
+          border-bottom: 1px solid #dfeae4;
+        }
+
+        .sponsor-success-meta div:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .sponsor-process {
+          margin-top: 18px;
+          display: grid;
+          gap: 12px;
+          background: linear-gradient(180deg, #f8f4ff, #fff7ed);
+        }
+
+        .sponsor-process-step {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+        }
+
+        .sponsor-process-step span {
+          width: 28px;
+          height: 28px;
+          min-width: 28px;
+          border-radius: 50%;
+          background: #dcecf9;
+          color: #0f4f85;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 800;
+        }
+
         .form-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -990,7 +1442,7 @@ Message: ${sponsorForm.message || "-"}`;
         .form-select,
         .form-textarea {
           width: 100%;
-          border: 1px solid #dbe2ea;
+          border: 1px solid #cfdbe8;
           background: #fff;
           border-radius: 14px;
           padding: 14px 16px;
@@ -1015,7 +1467,7 @@ Message: ${sponsorForm.message || "-"}`;
           display: flex;
           gap: 14px;
           align-items: flex-start;
-          background: #f8fafc;
+          background: #f7fbff;
           padding: 16px;
           border-radius: 16px;
         }
@@ -1024,8 +1476,8 @@ Message: ${sponsorForm.message || "-"}`;
           width: 42px;
           height: 42px;
           border-radius: 12px;
-          background: #ede9fe;
-          color: #6d28d9;
+          background: #dcecf9;
+          color: #0f4f85;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1071,7 +1523,7 @@ Message: ${sponsorForm.message || "-"}`;
         .cta h2 {
           font-family: 'Poppins', sans-serif;
           font-size: clamp(2rem, 4vw, 3rem);
-          color: #0f172a;
+          color: #0f2742;
           margin-bottom: 14px;
         }
 
@@ -1083,10 +1535,41 @@ Message: ${sponsorForm.message || "-"}`;
         }
 
         .footer {
-          background: #0f172a;
+          background: #0d2137;
           color: #cbd5e1;
           padding: 70px 0 30px;
           margin-top: 80px;
+        }
+
+        .updates-community-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+          gap: 24px;
+          align-items: start;
+        }
+
+        .updates-list {
+          display: grid;
+          gap: 18px;
+        }
+
+        .update-date {
+          color: #0f766e;
+          font-weight: 800;
+          font-size: 13px;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          margin-bottom: 10px;
+        }
+
+        .community-card {
+          background: linear-gradient(180deg, #0f2742, #12395f);
+          color: white;
+        }
+
+        .community-card h3,
+        .community-card p {
+          color: white;
         }
 
         .footer-grid {
@@ -1156,7 +1639,16 @@ Message: ${sponsorForm.message || "-"}`;
         @media (max-width: 950px) {
           .hero-grid,
           .event-grid,
-          .enquiry-grid {
+          .enquiry-grid,
+          .updates-community-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .hero-quick-grid,
+          .support-grid,
+          .updates-grid,
+          .small-donation-grid,
+          .definition-grid {
             grid-template-columns: 1fr;
           }
 
@@ -1192,6 +1684,11 @@ Message: ${sponsorForm.message || "-"}`;
           .logo {
             font-size: 22px;
             text-align: center;
+          }
+
+          .topbar-content,
+          .topbar-links {
+            justify-content: center;
           }
 
           .hero p,
@@ -1235,16 +1732,15 @@ Message: ${sponsorForm.message || "-"}`;
       <div className="app">
         <div className="topbar">
           <div className="container topbar-content">
-            <div>Empowering inclusion, awareness, and confidence</div>
-            <div className="socials">
-              <a href="https://www.facebook.com/61556561801555/" target="_blank" rel="noreferrer">
-                <FaFacebookF />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer">
-                <FaInstagram />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-                <FaLinkedinIn />
+            <div className="topbar-links">
+              <a href="#contact">Contact us</a>
+              <a href="#programs">What we do</a>
+              <a href="#sponsors">Partner with us</a>
+            </div>
+            <div className="topbar-links">
+              <a href="mailto:info@mrandmissautism.org">info@mrandmissautism.org</a>
+              <a href="#sponsorship-packages" className="btn btn-primary">
+                <FaHeart /> Donate
               </a>
             </div>
           </div>
@@ -1258,15 +1754,16 @@ Message: ${sponsorForm.message || "-"}`;
 
             <div className="nav-links">
               <a href="#home">Home</a>
+              <a href="#help">How You Can Help</a>
               <a href="#gallery-highlights">Gallery</a>
-              <a href="#upcoming-event">Coming Up Next</a>
+              <a href="#upcoming-event">Featured Event</a>
               <a href="#sponsors">Sponsors</a>
               <a href="#about">About</a>
-              <a href="#programs">Programs</a>
-              <a href="#impact">Impact</a>
+              <a href="#programs">Services</a>
+              <a href="#updates">Updates</a>
               <a href="#contact">Contact</a>
-              <a href="#sponsorship-packages" className="btn btn-primary">
-                <FaHeart /> Donate
+              <a href="#sponsorship-packages" className="btn btn-secondary">
+                <FaHandshake /> Sponsor
               </a>
             </div>
           </div>
@@ -1275,43 +1772,119 @@ Message: ${sponsorForm.message || "-"}`;
         <section className="hero" id="home">
           <div className="container hero-grid">
             <div>
-              <div className="hero-badge">Inclusion • Awareness • Celebration</div>
-              <h1>Celebrating children and young people with autism</h1>
+              <div className="hero-badge">Autism acceptance, visibility, and family support</div>
+              <h1>Creating a society where autistic children are seen, celebrated, and supported</h1>
               <p>
-                Mr & Miss Autism is a personal project dedicated to raising
-                awareness, celebrating unique abilities, and creating a more
-                supportive and inclusive community for children with autism and
-                their families.
+                Mr & Miss Autism brings together awareness, celebration, and practical support through events, storytelling, sponsorship, and community action. This homepage now follows a clearer, information-first structure inspired by leading autism charity websites.
               </p>
 
               <div className="hero-actions">
-                <a href="#gallery-highlights" className="btn btn-primary">
-                  <FaHandsHelping /> View Gallery
+                <a href="#about" className="btn btn-primary">
+                  <FaHandsHelping /> Learn about our work
                 </a>
 
-                <a href="#sponsorship-packages" className="btn btn-dark">
-                  <FaHandshake /> Become a Sponsor
+                <a href="#help" className="btn btn-dark">
+                  <FaHeart /> How you can help
                 </a>
+              </div>
+              <div className="hero-meta">
+                <span>Featured event on 18 April 2026</span>
+                <span>Community-led in Zambia</span>
+                <span>Support for children and families</span>
               </div>
             </div>
 
             <div className="hero-card">
+              <div className="hero-card-label">Featured campaign</div>
               <img
                 src={eventPoster}
                 alt="Mr and Miss Autism 2026 poster"
                 loading="eager"
                 decoding="async"
               />
-              <h3>Advancing neurodiversity through pageantry</h3>
+              <h3>Mr & Miss Autism 2026</h3>
               <p>
-                Join us for an inspiring event that celebrates ability,
-                visibility, and inclusion while creating a platform for autism
-                awareness in the community.
+                A focused campaign around inclusion, confidence, and awareness, with a clear route for families, supporters, and sponsors to get involved.
               </p>
 
               <a href="#upcoming-event" className="btn btn-primary">
-                <FaCalendarAlt /> See Event Details
+                <FaCalendarAlt /> View event details
               </a>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="container hero-quick-grid">
+            {quickLinks.map((item) => (
+              <div key={item.title} className="quick-card">
+                <div className="quick-card-icon">{item.icon}</div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <a href={item.href} className="text-link">
+                  Find out more
+                </a>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="help" className="muted-section">
+          <div className="container">
+            <div className="section-title">
+              <h2>How You Can Help</h2>
+              <p>
+                Support the movement in the way that suits you best, whether that means donating, sponsoring, or staying connected to future activities.
+              </p>
+            </div>
+
+            <div className="support-grid">
+              {supportWays.map((item) => (
+                <div key={item.title} className="support-card">
+                  <div className="support-card-icon">{item.icon}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <a
+                    href={item.href}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noreferrer" : undefined}
+                    className="text-link"
+                  >
+                    {item.cta}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="container">
+            <div className="section-title">
+              <h2>Small Donations Make a Difference</h2>
+              <p>
+                Not everyone can sponsor a full package, but small contributions still help us support children, families, and autism awareness activities.
+              </p>
+            </div>
+
+            <div className="small-donation-grid">
+              {smallDonationOptions.map((item) => (
+                <div key={item.amount} className="small-donation-card">
+                  <div className="donation-amount">{item.amount}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <a
+                    href={`https://wa.me/260979235167?text=${encodeURIComponent(
+                      `Hello, I would like to make a ${item.amount} donation to support Mr & Miss Autism.`
+                    )}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-primary"
+                  >
+                    <FaHeart /> Give {item.amount}
+                  </a>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -1319,7 +1892,7 @@ Message: ${sponsorForm.message || "-"}`;
         <section className="slider-section" id="gallery-highlights">
           <div className="container">
             <div className="section-title">
-              <h2>Gallery Highlights for 2025 event</h2>
+              <h2>Gallery Highlights</h2>
               <p>
                 A glimpse into the joy, confidence, connection, and inclusion that define this journey.
               </p>
@@ -1379,7 +1952,7 @@ Message: ${sponsorForm.message || "-"}`;
         <section id="upcoming-event" className="event-section-wrap">
           <div className="container">
             <div className="section-title">
-              <h2>Coming Up Next Month</h2>
+              <h2>Featured Event</h2>
               <p>
                 Be part of our upcoming signature event as we celebrate
                 neurodiversity, confidence, talent, and inclusion.
@@ -1519,7 +2092,10 @@ Message: ${sponsorForm.message || "-"}`;
 
               <div className="package-grid">
                 {sponsorPackages.map((pkg) => (
-                  <div key={pkg.name} className={`package-card ${pkg.className}`}>
+                  <div
+                    key={pkg.name}
+                    className={`package-card ${pkg.className} ${selectedSponsorPackage === pkg.name ? "selected-package" : ""}`}
+                  >
                     <div className="package-badge">{pkg.name}</div>
                     <div className="package-price">{pkg.amount}</div>
                     <p>Ideal for organizations looking to make visible, meaningful impact.</p>
@@ -1533,9 +2109,19 @@ Message: ${sponsorForm.message || "-"}`;
                       ))}
                     </div>
 
-                    <a href="#sponsorship-payment" className="btn btn-primary">
-                      <FaHandshake /> Choose Package
-                    </a>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => handleSponsorPackageSelect(pkg)}
+                    >
+                      <FaHandshake /> Select package
+                    </button>
+
+                    {selectedSponsorPackage === pkg.name && (
+                      <div className="package-status">
+                        <FaCheckCircle /> Selected for enquiry
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -1717,19 +2303,23 @@ Message: ${sponsorForm.message || "-"}`;
                 </div>
               </div>
 
-              <div className="section-title" style={{ marginTop: "56px" }}>
+              <div id="sponsor-enquiry" className="section-title" style={{ marginTop: "56px", scrollMarginTop: "120px" }}>
                 <h2>Sponsor Enquiry</h2>
                 <p>
-                  Fill in your details below if you would like to find out more before making payment.
+                  Fill in your details below to register your sponsorship interest and receive the next payment and branding steps.
                 </p>
               </div>
 
               <div className="enquiry-grid">
                 <div className="enquiry-card">
-                  <h3>Send a sponsor enquiry</h3>
+                  <h3>Start your sponsorship application</h3>
                   <p>
-                    Share your details and package interest. This form opens a pre-filled WhatsApp enquiry message.
+                    Share your details and package interest. We prepare a structured enquiry and open WhatsApp with the information already filled in.
                   </p>
+
+                  <div className="selected-package-banner">
+                    <strong>Selected package:</strong> {sponsorForm.package}
+                  </div>
 
                   <form onSubmit={handleSponsorSubmit}>
                     <div className="form-row">
@@ -1747,6 +2337,7 @@ Message: ${sponsorForm.message || "-"}`;
                         placeholder="Company / Organization"
                         value={sponsorForm.company}
                         onChange={handleSponsorChange}
+                        required
                       />
                     </div>
 
@@ -1757,6 +2348,7 @@ Message: ${sponsorForm.message || "-"}`;
                         placeholder="Phone Number"
                         value={sponsorForm.phone}
                         onChange={handleSponsorChange}
+                        required
                       />
                       <input
                         className="form-input"
@@ -1765,7 +2357,14 @@ Message: ${sponsorForm.message || "-"}`;
                         placeholder="Email Address"
                         value={sponsorForm.email}
                         onChange={handleSponsorChange}
+                        required
                       />
+                    </div>
+
+                    {sponsorFormError && <div className="form-error">{sponsorFormError}</div>}
+
+                    <div className="form-helper">
+                      Use a direct company contact so we can follow up quickly on confirmation and branding materials.
                     </div>
 
                     <select
@@ -1784,15 +2383,67 @@ Message: ${sponsorForm.message || "-"}`;
                     <textarea
                       className="form-textarea"
                       name="message"
-                      placeholder="Tell us what you'd like to know"
+                      placeholder="Tell us about your sponsorship goals, preferred visibility, or questions"
                       value={sponsorForm.message}
                       onChange={handleSponsorChange}
                     />
 
-                    <button type="submit" className="btn btn-whatsapp">
-                      <FaWhatsapp /> Ask on WhatsApp
-                    </button>
+                    <div className="form-actions-row">
+                      <button type="submit" className="btn btn-whatsapp">
+                        <FaWhatsapp /> Submit on WhatsApp
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => resetSponsorForm(selectedSponsorPackage)}
+                      >
+                        Clear form
+                      </button>
+                    </div>
                   </form>
+
+                  {sponsorSubmission && (
+                    <div className="sponsor-success-card">
+                      <h4>Enquiry prepared successfully</h4>
+                      <p>
+                        Your sponsor enquiry has been prepared with a reference number. Use the WhatsApp button below to send it, then continue to the payment details section if you are ready to proceed.
+                      </p>
+                      <div className="sponsor-success-meta">
+                        <div>
+                          <strong>Reference</strong>
+                          <span>{sponsorSubmission.reference}</span>
+                        </div>
+                        <div>
+                          <strong>Package</strong>
+                          <span>{sponsorSubmission.package}</span>
+                        </div>
+                        <div>
+                          <strong>Submitted</strong>
+                          <span>{sponsorSubmission.submittedAt}</span>
+                        </div>
+                      </div>
+                      <div className="donation-buttons">
+                        <a
+                          href={sponsorWhatsAppLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn btn-whatsapp"
+                        >
+                          <FaWhatsapp /> Send enquiry on WhatsApp
+                        </a>
+                        <a href="#sponsorship-payment" className="btn btn-primary">
+                          <FaUniversity /> View payment details
+                        </a>
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          onClick={handleChooseAnotherPackage}
+                        >
+                          Choose another package
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="enquiry-card">
@@ -1827,6 +2478,22 @@ Message: ${sponsorForm.message || "-"}`;
                     </div>
                   </div>
 
+                  <div className="sponsor-process">
+                    <h4>Sponsorship process</h4>
+                    <div className="sponsor-process-step">
+                      <span>1</span>
+                      <div>Select a package and submit your enquiry.</div>
+                    </div>
+                    <div className="sponsor-process-step">
+                      <span>2</span>
+                      <div>Receive payment guidance and share your company logo for campaign materials.</div>
+                    </div>
+                    <div className="sponsor-process-step">
+                      <span>3</span>
+                      <div>Once payment is confirmed, your organization is added to the sponsor rollout and recognition plan.</div>
+                    </div>
+                  </div>
+
                   <div className="donation-buttons">
                     <a href="/sponsorship-deck.pdf" target="_blank" rel="noreferrer" className="btn btn-dark">
                       <FaDownload /> Download Deck
@@ -1840,6 +2507,42 @@ Message: ${sponsorForm.message || "-"}`;
                       <FaHandshake /> Find Out More
                     </a>
                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </LazySection>
+
+        <LazySection fallback={<SectionLoader minHeight="420px" />} minHeight="420px">
+          <section id="what-is-autism" className="muted-section">
+            <div className="container">
+              <div className="section-title">
+                <h2>What Is Autism?</h2>
+                <p>
+                  A clear introduction for visitors, families, partners, and supporters who may be learning about autism for the first time.
+                </p>
+              </div>
+
+              <div className="definition-grid">
+                <div className="definition-card featured-definition">
+                  <div className="definition-highlight">Simple definition</div>
+                  <h3>Autism is a developmental difference, not an illness</h3>
+                  <p>
+                    Autism, or autism spectrum disorder, affects how a person experiences communication, social interaction, sensory input, and the world around them. Every autistic person is different, which is why it is called a spectrum.
+                  </p>
+                  <p>
+                    Some autistic children may need a lot of daily support, while others may need less. Many also have unique strengths, interests, and ways of expressing themselves.
+                  </p>
+                </div>
+
+                <div className="definition-card">
+                  <h3>Why awareness matters</h3>
+                  <p>
+                    When families, schools, employers, and communities understand autism better, it becomes easier to create safe, respectful, and inclusive spaces.
+                  </p>
+                  <p>
+                    Awareness helps reduce stigma and makes room for acceptance, dignity, and opportunity.
+                  </p>
                 </div>
               </div>
             </div>
@@ -1890,7 +2593,7 @@ Message: ${sponsorForm.message || "-"}`;
           <section id="programs">
             <div className="container">
               <div className="section-title">
-                <h2>What We Do</h2>
+                <h2>Services and Support We Offer</h2>
                 <p>
                   We focus on awareness, empowerment, support, and the celebration
                   of unique abilities.
@@ -1905,6 +2608,54 @@ Message: ${sponsorForm.message || "-"}`;
                     <p>{item.text}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </section>
+        </LazySection>
+
+        <LazySection fallback={<SectionLoader minHeight="520px" />} minHeight="520px">
+          <section id="updates" className="muted-section">
+            <div className="container">
+              <div className="section-title">
+                <h2>Latest Updates and Community</h2>
+                <p>
+                  Keep up with what is happening across the campaign, our event planning, and ways to stay connected.
+                </p>
+              </div>
+
+              <div className="updates-community-grid">
+                <div className="updates-list">
+                  {updates.map((item) => (
+                    <div key={item.title} className="update-card">
+                      <div className="update-date">{item.date}</div>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                      <a href={item.href} className="text-link">
+                        Read more
+                      </a>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="community-card">
+                  <h3>Stay close to the movement</h3>
+                  <p>
+                    Follow our upcoming event, reach out on WhatsApp, and help us build a stronger support network for autistic children and their families.
+                  </p>
+                  <div className="donation-buttons">
+                    <a
+                      href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20find%20out%20more%20about%20Mr%20and%20Miss%20Autism"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-whatsapp"
+                    >
+                      <FaWhatsapp /> Chat on WhatsApp
+                    </a>
+                    <a href="#gallery-highlights" className="btn btn-secondary">
+                      <FaRegSmileBeam /> See gallery
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
