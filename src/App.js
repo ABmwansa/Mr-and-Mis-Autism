@@ -697,15 +697,52 @@ Message: ${sponsorForm.message || "-"}`;
         }
 
         .hero-badge {
-          display: inline-block;
-          background: linear-gradient(135deg, #ede9fe, #ffe7d6);
-          color: #6d28d9;
-          padding: 8px 14px;
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,240,216,0.96));
+          color: #0f4f85;
+          padding: 12px 20px;
           border-radius: 999px;
           font-weight: 700;
           margin-bottom: 18px;
           font-size: 13px;
-          letter-spacing: 0.01em;
+          letter-spacing: 0.02em;
+          border: 1px solid rgba(255,255,255,0.75);
+          box-shadow:
+            0 16px 36px rgba(15, 79, 133, 0.14),
+            inset 0 1px 0 rgba(255,255,255,0.75);
+          overflow: hidden;
+          isolation: isolate;
+          animation: heroBadgeFloat 4.8s ease-in-out infinite;
+        }
+
+        .hero-badge::before,
+        .hero-badge::after {
+          content: "";
+          position: absolute;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: -1;
+        }
+
+        .hero-badge::before {
+          width: 32px;
+          height: 32px;
+          top: -10px;
+          left: 14px;
+          background: radial-gradient(circle, rgba(168, 230, 207, 0.85) 0%, rgba(168, 230, 207, 0) 72%);
+          animation: badgeBubbleDrift 5.2s linear infinite;
+        }
+
+        .hero-badge::after {
+          width: 56px;
+          height: 56px;
+          right: -14px;
+          bottom: -22px;
+          background: radial-gradient(circle, rgba(255, 187, 120, 0.6) 0%, rgba(255, 187, 120, 0) 72%);
+          animation: badgeBubbleDrift 6s linear infinite reverse;
         }
 
         .hero h1 {
@@ -1926,6 +1963,36 @@ Message: ${sponsorForm.message || "-"}`;
         @keyframes loadingBar {
           0% { transform: translateX(-120%); }
           100% { transform: translateX(320%); }
+        }
+
+        @keyframes heroBadgeFloat {
+          0%, 100% {
+            transform: translateY(0) scale(1);
+            box-shadow:
+              0 16px 36px rgba(15, 79, 133, 0.14),
+              inset 0 1px 0 rgba(255,255,255,0.75);
+          }
+          50% {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow:
+              0 22px 42px rgba(15, 79, 133, 0.18),
+              inset 0 1px 0 rgba(255,255,255,0.82);
+          }
+        }
+
+        @keyframes badgeBubbleDrift {
+          0% {
+            transform: translate3d(0, 0, 0) scale(0.92);
+            opacity: 0.5;
+          }
+          50% {
+            transform: translate3d(8px, -10px, 0) scale(1.08);
+            opacity: 0.85;
+          }
+          100% {
+            transform: translate3d(-4px, -18px, 0) scale(0.96);
+            opacity: 0.35;
+          }
         }
 
         @media (max-width: 950px) {
