@@ -2080,7 +2080,7 @@ Message: ${sponsorForm.message || "-"}`;
               <div className="hero-badge">Autism acceptance, visibility, and family support</div>
               <h1>Creating a society where autistic children are seen, celebrated, and supported</h1>
               <p>
-                Mr & Miss Autism brings together awareness, celebration, and practical support through events, storytelling, sponsorship, and community action. This homepage now follows a clearer, information-first structure inspired by leading autism charity websites.
+                Mr & Miss Autism brings together awareness, celebration, and practical support through events, storytelling, sponsorship, and community action.
               </p>
 
               <div className="hero-actions">
