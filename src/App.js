@@ -316,16 +316,15 @@ export default function App() {
       icon: <FaHeart />,
       title: "Make a Donation",
       text: "Support awareness activities, family outreach, and events that give children a platform to shine.",
-      href: "https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20donate%20to%20Mr%20and%20Miss%20Autism",
-      external: true,
-      cta: "Donate on WhatsApp",
+      href: "#sponsor-enquiry",
+      cta: "Donate now",
     },
     {
       icon: <FaHandshake />,
       title: "Become a Sponsor",
       text: "Partner with us through sponsorship packages that increase visibility and help fund meaningful work.",
-      href: "#sponsorship-packages",
-      cta: "View packages",
+      href: "#sponsor-enquiry",
+      cta: "Open sponsor form",
     },
     {
       icon: <FaHandsHelping />,
@@ -377,6 +376,7 @@ export default function App() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeParentGuideSlide, setActiveParentGuideSlide] = useState(0);
+  const [isParentGuideHovered, setIsParentGuideHovered] = useState(false);
   const [sponsorForm, setSponsorForm] = useState({
     name: "",
     company: "",
@@ -413,12 +413,16 @@ export default function App() {
   }, [slides.length]);
 
   useEffect(() => {
+    if (isParentGuideHovered) {
+      return undefined;
+    }
+
     const interval = setInterval(() => {
       setActiveParentGuideSlide((prev) => (prev + 1) % parentGuideSlides.length);
     }, 6500);
 
     return () => clearInterval(interval);
-  }, [parentGuideSlides.length]);
+  }, [isParentGuideHovered, parentGuideSlides.length]);
 
   const goNext = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const goPrev = () =>
@@ -2039,7 +2043,7 @@ Message: ${sponsorForm.message || "-"}`;
             </div>
             <div className="topbar-links">
               <a href="mailto:info@mrandmissautism.org">info@mrandmissautism.org</a>
-              <a href="#sponsorship-packages" className="btn btn-primary">
+              <a href="#sponsor-enquiry" className="btn btn-primary">
                 <FaHeart /> Donate
               </a>
             </div>
@@ -2063,7 +2067,7 @@ Message: ${sponsorForm.message || "-"}`;
               <a href="#programs">Services</a>
               <a href="#updates">Updates</a>
               <a href="#contact">Contact</a>
-              <a href="#sponsorship-packages" className="btn btn-secondary">
+              <a href="#sponsor-enquiry" className="btn btn-secondary">
                 <FaHandshake /> Sponsor
               </a>
             </div>
@@ -2346,7 +2350,11 @@ Message: ${sponsorForm.message || "-"}`;
                 </p>
               </div>
 
-              <div className="parent-guide-shell">
+              <div
+                className="parent-guide-shell"
+                onPointerEnter={() => setIsParentGuideHovered(true)}
+                onPointerLeave={() => setIsParentGuideHovered(false)}
+              >
                 <div className="parent-guide-main">
                   <div className="parent-guide-tabs" role="tablist" aria-label="Parent guide topics">
                     {parentGuideSlides.map((slide, index) => (
@@ -3089,16 +3097,11 @@ Message: ${sponsorForm.message || "-"}`;
               </p>
 
               <div className="donation-buttons" style={{ justifyContent: "center" }}>
-                <a
-                  href="https://wa.me/260979235167?text=Hello%20I%20would%20like%20to%20donate%20to%20Mr%20and%20Miss%20Autism"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-whatsapp"
-                >
-                  <FaWhatsapp /> Donate on WhatsApp
+                <a href="#sponsor-enquiry" className="btn btn-whatsapp">
+                  <FaWhatsapp /> Donate Now
                 </a>
 
-                <a href="#sponsorship-packages" className="btn btn-dark">
+                <a href="#sponsor-enquiry" className="btn btn-dark">
                   <FaHandshake /> Become a Sponsor
                 </a>
               </div>
