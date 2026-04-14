@@ -163,6 +163,75 @@ export default function App() {
     },
   ];
 
+  const parentGuideSlides = [
+    {
+      id: "not-judging",
+      kicker: "What Judges Are Not Judging",
+      title: "Your child is not being measured against social expectations.",
+      accent: "No comparisons. No pressure to perform.",
+      points: [
+        "Speech ability or silence",
+        "Eye contact or lack of it",
+        "Stimming, movement, or stillness",
+        "Needing help from an adult or aide",
+        "Speed, confidence, or stage skills",
+      ],
+      note: "Your child is never compared to another child.",
+    },
+    {
+      id: "observed-with-care",
+      kicker: "What Judges Do Look For",
+      title: "Judges gently observe how supported, comfortable, and authentic your child feels.",
+      accent: "There is no single right way for this to appear.",
+      points: [
+        "Comfort and emotional safety",
+        "Authentic self-expression",
+        "Effort and preparation",
+        "Engagement and presence",
+        "Supportive interaction when help is needed",
+      ],
+      note: "These are observed softly and respectfully, even when they show up briefly or subtly.",
+    },
+    {
+      id: "clothing",
+      kicker: "About Clothing Categories",
+      title: "Outfits are symbolic and comfort always comes first.",
+      accent: "Fashion cost is not the point.",
+      points: [
+        "Sensory-friendly clothing is encouraged",
+        "Simplified or adapted outfits are welcome",
+        "Aspirational career outfits are allowed",
+        "Comfort is valued over appearance pressure",
+      ],
+      note: "Children can be celebrated in clothing that helps them feel safe and confident.",
+    },
+    {
+      id: "recognition",
+      kicker: "Awards and Recognition",
+      title: "Every child is affirmed and recognized.",
+      accent: "Recognition is built around strengths, not perfection.",
+      points: [
+        "Every child receives an award",
+        "Special recognitions highlight unique strengths",
+        "The Spotlight Ambassador reflects comfort, authenticity, and inclusion",
+      ],
+      note: "This is a celebration of presence, effort, and individuality.",
+    },
+    {
+      id: "wellbeing",
+      kicker: "Your Child's Wellbeing Comes First",
+      title: "A child may pause, step away, or leave the stage at any time.",
+      accent: "Safety and dignity override the program flow.",
+      points: [
+        "Pausing is allowed",
+        "Leaving the stage is allowed",
+        "Recognition is not reduced if a child becomes overwhelmed",
+        "Judges are expected to prioritize dignity and safety",
+      ],
+      note: "Participation is always child-led and support-led.",
+    },
+  ];
+
   const sponsorBenefits = [
     "Strong visibility across event promotion and digital campaigns",
     "Positive brand alignment with inclusion, awareness, and family support",
@@ -307,6 +376,7 @@ export default function App() {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeParentGuideSlide, setActiveParentGuideSlide] = useState(0);
   const [sponsorForm, setSponsorForm] = useState({
     name: "",
     company: "",
@@ -341,6 +411,14 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, [slides.length]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveParentGuideSlide((prev) => (prev + 1) % parentGuideSlides.length);
+    }, 6500);
+
+    return () => clearInterval(interval);
+  }, [parentGuideSlides.length]);
 
   const goNext = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const goPrev = () =>
@@ -841,6 +919,216 @@ Message: ${sponsorForm.message || "-"}`;
 
         .slider-section {
           padding-top: 40px;
+        }
+
+        .parent-guide-section {
+          background:
+            radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 24%),
+            radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 28%),
+            linear-gradient(180deg, #fffefb 0%, #f6fbff 100%);
+        }
+
+        .parent-guide-shell {
+          display: grid;
+          grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.7fr);
+          gap: 26px;
+          align-items: stretch;
+        }
+
+        .parent-guide-main,
+        .parent-guide-aside {
+          background: rgba(255,255,255,0.92);
+          border: 1px solid #d7e4ee;
+          border-radius: 30px;
+          box-shadow: 0 24px 56px rgba(15, 39, 66, 0.08);
+        }
+
+        .parent-guide-main {
+          padding: 26px;
+        }
+
+        .parent-guide-tabs {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-bottom: 22px;
+        }
+
+        .guide-tab {
+          border: 1px solid #d4e0ea;
+          background: #f8fbff;
+          color: #34506c;
+          padding: 11px 16px;
+          border-radius: 999px;
+          font: inherit;
+          font-weight: 700;
+          cursor: pointer;
+          transition: 0.25s ease;
+        }
+
+        .guide-tab.active,
+        .guide-tab:hover {
+          background: linear-gradient(135deg, #0f766e, #0f4f85);
+          color: white;
+          border-color: transparent;
+          transform: translateY(-1px);
+        }
+
+        .parent-guide-panel {
+          position: relative;
+          overflow: hidden;
+          border-radius: 26px;
+          background:
+            radial-gradient(circle at top right, rgba(249, 115, 22, 0.16), transparent 30%),
+            radial-gradient(circle at left bottom, rgba(15, 118, 110, 0.14), transparent 26%),
+            linear-gradient(135deg, #0f2742, #153d63);
+          color: white;
+          padding: 34px;
+          min-height: 430px;
+        }
+
+        .parent-guide-kicker {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: rgba(255,255,255,0.12);
+          color: #f6fbff;
+          border: 1px solid rgba(255,255,255,0.16);
+          border-radius: 999px;
+          padding: 8px 14px;
+          font-size: 13px;
+          font-weight: 800;
+          letter-spacing: 0.02em;
+          margin-bottom: 18px;
+        }
+
+        .parent-guide-panel h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: clamp(1.8rem, 4vw, 2.6rem);
+          line-height: 1.15;
+          margin-bottom: 12px;
+          max-width: 640px;
+        }
+
+        .parent-guide-accent {
+          color: rgba(255,255,255,0.78);
+          font-size: 17px;
+          margin-bottom: 24px;
+          max-width: 620px;
+        }
+
+        .parent-guide-points {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+          margin-bottom: 26px;
+        }
+
+        .parent-guide-point {
+          display: flex;
+          gap: 12px;
+          align-items: flex-start;
+          padding: 16px 18px;
+          border-radius: 20px;
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.12);
+          backdrop-filter: blur(12px);
+        }
+
+        .parent-guide-point-icon {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.16);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .parent-guide-point span {
+          font-size: 15px;
+          line-height: 1.5;
+          color: rgba(255,255,255,0.94);
+        }
+
+        .parent-guide-note {
+          padding: 16px 18px;
+          border-radius: 20px;
+          background: rgba(255,255,255,0.12);
+          border: 1px solid rgba(255,255,255,0.14);
+          color: #fef3c7;
+          font-weight: 700;
+          max-width: 660px;
+        }
+
+        .parent-guide-aside {
+          padding: 28px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 22px;
+        }
+
+        .parent-guide-aside-card {
+          padding: 22px;
+          border-radius: 24px;
+          background: linear-gradient(180deg, #f7fbff, #eef5fb);
+          border: 1px solid #d7e3ef;
+        }
+
+        .parent-guide-aside-card h4 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 22px;
+          color: #0f2742;
+          margin-bottom: 10px;
+        }
+
+        .parent-guide-aside-card p {
+          color: #51697f;
+          line-height: 1.7;
+        }
+
+        .parent-guide-mini-list {
+          display: grid;
+          gap: 12px;
+        }
+
+        .parent-guide-mini-item {
+          display: flex;
+          gap: 12px;
+          align-items: flex-start;
+          color: #294763;
+          font-weight: 700;
+        }
+
+        .parent-guide-mini-item svg {
+          color: #0f766e;
+          margin-top: 2px;
+          flex-shrink: 0;
+        }
+
+        .parent-guide-affirmation {
+          background: linear-gradient(135deg, #fff0d8, #fffaf1);
+          border: 1px solid #f4d5a6;
+          border-radius: 24px;
+          padding: 22px;
+        }
+
+        .parent-guide-affirmation strong {
+          display: block;
+          color: #9a3412;
+          font-size: 13px;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          margin-bottom: 10px;
+        }
+
+        .parent-guide-affirmation p {
+          color: #7c2d12;
+          font-size: 17px;
+          line-height: 1.7;
+          font-weight: 700;
         }
 
         .slider-shell {
@@ -1640,7 +1928,8 @@ Message: ${sponsorForm.message || "-"}`;
           .hero-grid,
           .event-grid,
           .enquiry-grid,
-          .updates-community-grid {
+          .updates-community-grid,
+          .parent-guide-shell {
             grid-template-columns: 1fr;
           }
 
@@ -1648,7 +1937,8 @@ Message: ${sponsorForm.message || "-"}`;
           .support-grid,
           .updates-grid,
           .small-donation-grid,
-          .definition-grid {
+          .definition-grid,
+          .parent-guide-points {
             grid-template-columns: 1fr;
           }
 
@@ -1726,6 +2016,16 @@ Message: ${sponsorForm.message || "-"}`;
             min-height: 300px;
             height: 300px;
           }
+
+          .parent-guide-main,
+          .parent-guide-aside {
+            padding: 20px;
+          }
+
+          .parent-guide-panel {
+            padding: 24px;
+            min-height: auto;
+          }
         }
       `}</style>
 
@@ -1757,6 +2057,7 @@ Message: ${sponsorForm.message || "-"}`;
               <a href="#help">How You Can Help</a>
               <a href="#gallery-highlights">Gallery</a>
               <a href="#upcoming-event">Featured Event</a>
+              <a href="#parents-guide">Parents</a>
               <a href="#sponsors">Sponsors</a>
               <a href="#about">About</a>
               <a href="#programs">Services</a>
@@ -2034,6 +2335,97 @@ Message: ${sponsorForm.message || "-"}`;
             </div>
           </div>
         </section>
+
+        <LazySection fallback={<SectionLoader minHeight="760px" />} minHeight="760px">
+          <section id="parents-guide" className="parent-guide-section">
+            <div className="container">
+              <div className="section-title">
+                <h2>Parent & Caregiver Guide</h2>
+                <p>
+                  A simple explanation of how children are celebrated, observed, and recognized so the process stays transparent, respectful, and safe.
+                </p>
+              </div>
+
+              <div className="parent-guide-shell">
+                <div className="parent-guide-main">
+                  <div className="parent-guide-tabs" role="tablist" aria-label="Parent guide topics">
+                    {parentGuideSlides.map((slide, index) => (
+                      <button
+                        key={slide.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={activeParentGuideSlide === index}
+                        className={`guide-tab ${activeParentGuideSlide === index ? "active" : ""}`}
+                        onClick={() => setActiveParentGuideSlide(index)}
+                      >
+                        {slide.kicker}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="parent-guide-panel">
+                    <div className="parent-guide-kicker">
+                      <FaHeart /> {parentGuideSlides[activeParentGuideSlide].kicker}
+                    </div>
+                    <h3>{parentGuideSlides[activeParentGuideSlide].title}</h3>
+                    <p className="parent-guide-accent">
+                      {parentGuideSlides[activeParentGuideSlide].accent}
+                    </p>
+
+                    <div className="parent-guide-points">
+                      {parentGuideSlides[activeParentGuideSlide].points.map((point) => (
+                        <div key={point} className="parent-guide-point">
+                          <div className="parent-guide-point-icon">
+                            <FaCheckCircle />
+                          </div>
+                          <span>{point}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="parent-guide-note">
+                      {parentGuideSlides[activeParentGuideSlide].note}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="parent-guide-aside">
+                  <div className="parent-guide-aside-card">
+                    <h4>What this event means</h4>
+                    <p>
+                      Mr & Miss Autism Zambia is not a competition. It is a celebration of your child&apos;s presence, effort, and individuality.
+                    </p>
+                  </div>
+
+                  <div className="parent-guide-aside-card">
+                    <h4>What families can expect</h4>
+                    <div className="parent-guide-mini-list">
+                      <div className="parent-guide-mini-item">
+                        <FaCheckCircle />
+                        <span>Every child receives recognition.</span>
+                      </div>
+                      <div className="parent-guide-mini-item">
+                        <FaCheckCircle />
+                        <span>Support from a parent, caregiver, or aide is welcome.</span>
+                      </div>
+                      <div className="parent-guide-mini-item">
+                        <FaCheckCircle />
+                        <span>Children can participate in their own way and at their own pace.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="parent-guide-affirmation">
+                    <strong>Family reassurance</strong>
+                    <p>
+                      If your child feels overwhelmed, they may pause or leave the stage. This does not reduce their recognition.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </LazySection>
 
         <LazySection fallback={<SectionLoader minHeight="1900px" />} minHeight="1900px">
           <section id="sponsors" className="sponsor-section-wrap">
