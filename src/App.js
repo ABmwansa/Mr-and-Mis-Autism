@@ -317,13 +317,13 @@ export default function App() {
 
   const topFeatureCards = [
     {
-      image: topHostPoster,
+      image: topCohostPoster,
       role: "Red Carpet Host",
       name: "Esnart Lungu",
       text: "Meet Esnart Lungu, our red carpet host, journalist, creative director, on-air personality, event host, and producer helping set the tone for today's celebration.",
     },
     {
-      image: topCohostPoster,
+      image: topHostPoster,
       role: "Co-Host",
       name: "Trudy Mundia",
       text: "Trudy Mundia joins today's event as a vibrant co-host, bringing youthful energy, confidence, and visibility to Mr & Miss Autism 2026.",
@@ -396,6 +396,7 @@ export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeParentGuideSlide, setActiveParentGuideSlide] = useState(0);
   const [isParentGuideHovered, setIsParentGuideHovered] = useState(false);
+  const [activeTopFeature, setActiveTopFeature] = useState(null);
   const [sponsorForm, setSponsorForm] = useState({
     name: "",
     company: "",
@@ -442,6 +443,27 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, [isParentGuideHovered, parentGuideSlides.length]);
+
+  useEffect(() => {
+    if (!activeTopFeature) {
+      return undefined;
+    }
+
+    const originalOverflow = document.body.style.overflow;
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setActiveTopFeature(null);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [activeTopFeature]);
 
   const goNext = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const goPrev = () =>
@@ -875,6 +897,12 @@ Message: ${sponsorForm.message || "-"}`;
         .top-feature-image-wrap {
           position: relative;
           padding: 18px 18px 0;
+          width: 100%;
+          background: transparent;
+          border: none;
+          text-align: left;
+          cursor: zoom-in;
+          font: inherit;
         }
 
         .top-feature-image-wrap::after {
@@ -893,6 +921,33 @@ Message: ${sponsorForm.message || "-"}`;
           object-position: center top;
           border-radius: 24px;
           display: block;
+          transition: transform 0.25s ease;
+        }
+
+        .top-feature-image-wrap:hover img,
+        .top-feature-image-wrap:focus-visible img {
+          transform: scale(1.015);
+        }
+
+        .top-feature-image-wrap:focus-visible {
+          outline: 3px solid rgba(15, 118, 110, 0.28);
+          outline-offset: 2px;
+        }
+
+        .top-feature-view-hint {
+          position: absolute;
+          right: 30px;
+          bottom: 16px;
+          z-index: 1;
+          background: rgba(15, 39, 66, 0.78);
+          color: white;
+          border-radius: 999px;
+          padding: 8px 12px;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          pointer-events: none;
         }
 
         .top-feature-content {
@@ -923,6 +978,85 @@ Message: ${sponsorForm.message || "-"}`;
         .top-feature-content p {
           color: #4f657c;
           margin: 0;
+          font-size: 16px;
+        }
+
+        .image-lightbox {
+          position: fixed;
+          inset: 0;
+          z-index: 2000;
+          background: rgba(3, 10, 20, 0.9);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 28px;
+        }
+
+        .image-lightbox-dialog {
+          position: relative;
+          width: min(100%, 980px);
+          max-height: 100%;
+          background: linear-gradient(180deg, #ffffff, #f8fbff);
+          border-radius: 28px;
+          overflow: hidden;
+          box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
+        }
+
+        .image-lightbox-close {
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          z-index: 2;
+          min-width: 44px;
+          height: 44px;
+          padding: 0 16px;
+          border-radius: 999px;
+          border: none;
+          background: rgba(15, 39, 66, 0.88);
+          color: white;
+          font-weight: 800;
+          cursor: pointer;
+        }
+
+        .image-lightbox-media {
+          background: #eef4fa;
+        }
+
+        .image-lightbox-media img {
+          width: 100%;
+          max-height: min(78vh, 900px);
+          object-fit: contain;
+          display: block;
+        }
+
+        .image-lightbox-content {
+          padding: 20px 24px 24px;
+        }
+
+        .image-lightbox-role {
+          display: inline-flex;
+          align-items: center;
+          padding: 8px 12px;
+          border-radius: 999px;
+          background: #e8f4ff;
+          color: #0f4f85;
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          margin-bottom: 14px;
+        }
+
+        .image-lightbox-content h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 28px;
+          color: #0f2742;
+          margin-bottom: 10px;
+        }
+
+        .image-lightbox-content p {
+          margin: 0;
+          color: #4f657c;
           font-size: 16px;
         }
 
@@ -2194,11 +2328,31 @@ Message: ${sponsorForm.message || "-"}`;
             aspect-ratio: 4 / 5;
           }
 
+          .top-feature-view-hint {
+            right: 24px;
+          }
+
           .top-feature-content {
             padding: 18px 20px 22px;
           }
 
           .top-feature-content h3 {
+            font-size: 22px;
+          }
+
+          .image-lightbox {
+            padding: 14px;
+          }
+
+          .image-lightbox-dialog {
+            border-radius: 22px;
+          }
+
+          .image-lightbox-content {
+            padding: 18px 18px 20px;
+          }
+
+          .image-lightbox-content h3 {
             font-size: 22px;
           }
 
@@ -2305,16 +2459,22 @@ Message: ${sponsorForm.message || "-"}`;
             <div className="section-title" style={{ marginBottom: "28px" }}>
               <h2>Featured Faces at the Top</h2>
               <p>
-                Meet two of the standout personalities helping shape the energy, visibility, and celebration around today&apos;s event.
+                Meet two of the standout personalities helping shape the energy, visibility, and celebration around today&apos;s event. Click either image to view it in full.
               </p>
             </div>
 
             <div className="top-feature-grid">
               {topFeatureCards.map((item) => (
                 <article key={item.name} className="top-feature-card">
-                  <div className="top-feature-image-wrap">
+                  <button
+                    type="button"
+                    className="top-feature-image-wrap"
+                    onClick={() => setActiveTopFeature(item)}
+                    aria-label={`View ${item.name} poster`}
+                  >
                     <img src={item.image} alt={`${item.name} for Mr & Miss Autism 2026`} loading="lazy" decoding="async" />
-                  </div>
+                    <span className="top-feature-view-hint">Click to view</span>
+                  </button>
                   <div className="top-feature-content">
                     <div className="top-feature-role">{item.role}</div>
                     <h3>{item.name}</h3>
@@ -3383,6 +3543,35 @@ Message: ${sponsorForm.message || "-"}`;
         >
           <FaWhatsapp />
         </a>
+
+        {activeTopFeature && (
+          <div
+            className="image-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${activeTopFeature.name} poster`}
+            onClick={() => setActiveTopFeature(null)}
+          >
+            <div className="image-lightbox-dialog" onClick={(event) => event.stopPropagation()}>
+              <button
+                type="button"
+                className="image-lightbox-close"
+                onClick={() => setActiveTopFeature(null)}
+                aria-label="Close image viewer"
+              >
+                Close
+              </button>
+              <div className="image-lightbox-media">
+                <img src={activeTopFeature.image} alt={`${activeTopFeature.name} poster`} />
+              </div>
+              <div className="image-lightbox-content">
+                <div className="image-lightbox-role">{activeTopFeature.role}</div>
+                <h3>{activeTopFeature.name}</h3>
+                <p>{activeTopFeature.text}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
