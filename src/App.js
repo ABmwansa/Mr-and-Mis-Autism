@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState, Suspense } from "react";
-import { Link } from "react-router-dom";import {
+import { Link } from "react-router-dom";
+import {
   FaWhatsapp,
   FaHeart,
   FaHandsHelping,
@@ -40,6 +41,7 @@ import sponsor5 from "./assets/sponsor logos/multisensory.png";
 import sponsor6 from "./assets/sponsor logos/Logo6.png";
 import sponsor7 from "./assets/sponsor logos/logo7.jpeg";
 import sponsor8 from "./assets/sponsor logos/Logo.jpg.jpeg";
+import sponsor9 from "./assets/sponsor logos/zamcom-radio.jpeg";
 
 function SectionLoader({ minHeight = "300px" }) {
   return (
@@ -305,8 +307,8 @@ export default function App() {
     },
     {
       icon: <FaCalendarAlt />,
-      title: "Upcoming Event",
-      text: "Get the details for the 2026 pageant and talent show, including time, venue, and contact options.",
+      title: "Today's Event",
+      text: "The 2026 pageant and talent show are happening today, 18 April 2026, with all the time, venue, and contact details below.",
       href: "#upcoming-event",
     },
   ];
@@ -337,9 +339,9 @@ export default function App() {
 
   const updates = [
     {
-      title: "Mr & Miss Autism 2026 is coming up",
+      title: "Mr & Miss Autism 2026 is happening today",
       date: "18 April 2026",
-      text: "Our next event will celebrate confidence, talent, and inclusion with families, supporters, and community partners.",
+      text: "Today, 18 April 2026, families, supporters, and community partners are gathering to celebrate confidence, talent, and inclusion.",
       href: "#upcoming-event",
     },
     {
@@ -2127,7 +2129,7 @@ Message: ${sponsorForm.message || "-"}`;
               <a href="#home">Home</a>
               <a href="#help">How You Can Help</a>
               <a href="#gallery-highlights">Gallery</a>
-              <a href="#upcoming-event">Featured Event</a>
+              <a href="#upcoming-event">Today's Event</a>
               <a href="#parents-guide">Parents</a>
               <a href="#sponsors">Sponsors</a>
               <a href="#about">About</a>
@@ -2160,14 +2162,14 @@ Message: ${sponsorForm.message || "-"}`;
                 </a>
               </div>
               <div className="hero-meta">
-                <span>Featured event on 18 April 2026</span>
+                <span>The event is today: 18 April 2026</span>
                 <span>Community-led in Zambia</span>
                 <span>Support for children and families</span>
               </div>
             </div>
 
             <div className="hero-card">
-              <div className="hero-card-label">Featured campaign</div>
+              <div className="hero-card-label">Happening today</div>
               <img
                 src={eventPoster}
                 alt="Mr and Miss Autism 2026 poster"
@@ -2176,11 +2178,11 @@ Message: ${sponsorForm.message || "-"}`;
               />
               <h3>Mr & Miss Autism 2026</h3>
               <p>
-                A focused campaign around inclusion, confidence, and awareness, with a clear route for families, supporters, and sponsors to get involved.
+                The celebration is finally here today, bringing families, supporters, and sponsors together around inclusion, confidence, and awareness.
               </p>
 
               <a href="#upcoming-event" className="btn btn-primary">
-                <FaCalendarAlt /> View event details
+                <FaCalendarAlt /> See today's event
               </a>
             </div>
           </div>
@@ -2324,16 +2326,16 @@ Message: ${sponsorForm.message || "-"}`;
         <section id="upcoming-event" className="event-section-wrap">
           <div className="container">
             <div className="section-title">
-              <h2>Featured Event</h2>
+              <h2>Today's Event</h2>
               <p>
-                Be part of our upcoming signature event as we celebrate
+                The celebration is finally here today, 18 April 2026, as we gather around
                 neurodiversity, confidence, talent, and inclusion.
               </p>
             </div>
 
             <div className="event-grid">
               <div className="event-card">
-                <div className="event-tag">Upcoming Event</div>
+                <div className="event-tag">Happening Today</div>
                 <h3>Mr & Miss Autism 2026</h3>
                 <div className="event-theme">
                   Theme: “Advancing Neurodiversity Through Pageantry”
@@ -2398,7 +2400,7 @@ Message: ${sponsorForm.message || "-"}`;
               <div className="poster-card">
                 <img
                   src={eventPoster}
-                  alt="Upcoming event poster"
+                  alt="Mr & Miss Autism 2026 event poster"
                   loading="lazy"
                   decoding="async"
                 />
@@ -2508,7 +2510,7 @@ Message: ${sponsorForm.message || "-"}`;
               <div className="section-title">
                 <h2>Sponsor With Us</h2>
                 <p>
-                  Sponsorships are confirmed through bank payment only. Once your sponsorship is confirmed, we shall need your logo for brand visibility on our adverts and during the event.
+                  The event is live today, and sponsorships are confirmed through bank payment only. Once your sponsorship is confirmed, we shall need your logo for brand visibility on our adverts and across the event experience.
                 </p>
               </div>
 
@@ -2617,7 +2619,7 @@ Message: ${sponsorForm.message || "-"}`;
               <div className="section-title" style={{ marginTop: "56px" }}>
                 <h2>Our Partners & Sponsors</h2>
                 <p>
-                  As partnerships grow, this section showcases sponsor logos and helps build trust with new supporters.
+                  Today's event is backed by trusted partners and sponsors whose support helps build visibility, trust, and real community impact.
                 </p>
               </div>
 
@@ -2690,6 +2692,10 @@ Message: ${sponsorForm.message || "-"}`;
                 >
                   <img src={sponsor8} alt="Multisensory School" className="sponsor-logo-img" loading="lazy" decoding="async" />
                 </a>
+
+                <div className="logo-card" aria-label="Zamcom Radio">
+                  <img src={sponsor9} alt="Zamcom Radio 100.1 FM" className="sponsor-logo-img" loading="lazy" decoding="async" />
+                </div>
               </div>
 
               <div id="sponsorship-payment" className="payment-card" style={{ marginTop: "40px" }}>
@@ -3107,7 +3113,7 @@ Message: ${sponsorForm.message || "-"}`;
                 <div className="community-card">
                   <h3>Stay close to the movement</h3>
                   <p>
-                    Follow our upcoming event, reach out on WhatsApp, and help us build a stronger support network for autistic children and their families.
+                    Follow today's event, reach out on WhatsApp, and help us build a stronger support network for autistic children and their families.
                   </p>
                   <div className="donation-buttons">
                     <a
@@ -3191,7 +3197,7 @@ Message: ${sponsorForm.message || "-"}`;
                 <h3>Quick Links</h3>
                 <p><a href="#home">Home</a></p>
                 <p><a href="#gallery-highlights">Gallery</a></p>
-                <p><a href="#upcoming-event">Coming Up Next</a></p>
+                <p><a href="#upcoming-event">Today's Event</a></p>
                 <p><a href="#sponsors">Sponsors</a></p>
                 <p><a href="#about">About</a></p>
                 <p><a href="#programs">Programs</a></p>
