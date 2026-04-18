@@ -26,6 +26,8 @@ import {
 } from "react-icons/fa";
 
 import eventPoster from "./assets/event-poster.jpeg";
+import topHostPoster from "./assets/top-host-poster.jpeg";
+import topCohostPoster from "./assets/top-cohost-poster.jpeg";
 import slide1 from "./assets/slide1.jpg";
 import slide2 from "./assets/slide2.jpg";
 import slide3 from "./assets/slide3.jpeg";
@@ -310,6 +312,21 @@ export default function App() {
       title: "Today's Event",
       text: "The 2026 pageant and talent show are happening today, 18 April 2026, with all the time, venue, and contact details below.",
       href: "#upcoming-event",
+    },
+  ];
+
+  const topFeatureCards = [
+    {
+      image: topHostPoster,
+      role: "Red Carpet Host",
+      name: "Esnart Lungu",
+      text: "Meet Esnart Lungu, our red carpet host, journalist, creative director, on-air personality, event host, and producer helping set the tone for today's celebration.",
+    },
+    {
+      image: topCohostPoster,
+      role: "Co-Host",
+      name: "Trudy Mundia",
+      text: "Trudy Mundia joins today's event as a vibrant co-host, bringing youthful energy, confidence, and visibility to Mr & Miss Autism 2026.",
     },
   ];
 
@@ -823,6 +840,7 @@ Message: ${sponsorForm.message || "-"}`;
         }
 
         .hero-quick-grid,
+        .top-feature-grid,
         .support-grid,
         .updates-grid,
         .small-donation-grid,
@@ -834,6 +852,78 @@ Message: ${sponsorForm.message || "-"}`;
 
         .hero-quick-grid {
           margin: 0 0 18px;
+        }
+
+        .top-feature-section {
+          padding-top: 28px;
+          padding-bottom: 28px;
+        }
+
+        .top-feature-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 24px;
+        }
+
+        .top-feature-card {
+          background: linear-gradient(180deg, #ffffff, #f7fbff);
+          border: 1px solid #d9e4ef;
+          border-radius: 28px;
+          box-shadow: 0 20px 42px rgba(15, 39, 66, 0.08);
+          overflow: hidden;
+        }
+
+        .top-feature-image-wrap {
+          position: relative;
+          padding: 18px 18px 0;
+        }
+
+        .top-feature-image-wrap::after {
+          content: "";
+          position: absolute;
+          inset: 18px 18px 0;
+          border-radius: 24px;
+          background: linear-gradient(180deg, rgba(15, 39, 66, 0), rgba(15, 39, 66, 0.08));
+          pointer-events: none;
+        }
+
+        .top-feature-image-wrap img {
+          width: 100%;
+          height: 540px;
+          object-fit: cover;
+          object-position: center top;
+          border-radius: 24px;
+          display: block;
+        }
+
+        .top-feature-content {
+          padding: 22px 24px 26px;
+        }
+
+        .top-feature-role {
+          display: inline-flex;
+          align-items: center;
+          padding: 8px 12px;
+          border-radius: 999px;
+          background: #e8f4ff;
+          color: #0f4f85;
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          margin-bottom: 14px;
+        }
+
+        .top-feature-content h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 26px;
+          color: #0f2742;
+          margin-bottom: 10px;
+        }
+
+        .top-feature-content p {
+          color: #4f657c;
+          margin: 0;
+          font-size: 16px;
         }
 
         .quick-card,
@@ -2007,6 +2097,7 @@ Message: ${sponsorForm.message || "-"}`;
           }
 
           .hero-quick-grid,
+          .top-feature-grid,
           .support-grid,
           .updates-grid,
           .small-donation-grid,
@@ -2026,6 +2117,10 @@ Message: ${sponsorForm.message || "-"}`;
           .hero-card img,
           .slide {
             height: 360px;
+          }
+
+          .top-feature-image-wrap img {
+            height: 500px;
           }
 
           .slider-shell {
@@ -2088,6 +2183,23 @@ Message: ${sponsorForm.message || "-"}`;
           .slider-shell {
             min-height: 300px;
             height: 300px;
+          }
+
+          .top-feature-section {
+            padding-top: 18px;
+          }
+
+          .top-feature-image-wrap img {
+            height: auto;
+            aspect-ratio: 4 / 5;
+          }
+
+          .top-feature-content {
+            padding: 18px 20px 22px;
+          }
+
+          .top-feature-content h3 {
+            font-size: 22px;
           }
 
           .parent-guide-main,
@@ -2184,6 +2296,32 @@ Message: ${sponsorForm.message || "-"}`;
               <a href="#upcoming-event" className="btn btn-primary">
                 <FaCalendarAlt /> See today's event
               </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="top-feature-section">
+          <div className="container">
+            <div className="section-title" style={{ marginBottom: "28px" }}>
+              <h2>Featured Faces at the Top</h2>
+              <p>
+                Meet two of the standout personalities helping shape the energy, visibility, and celebration around today&apos;s event.
+              </p>
+            </div>
+
+            <div className="top-feature-grid">
+              {topFeatureCards.map((item) => (
+                <article key={item.name} className="top-feature-card">
+                  <div className="top-feature-image-wrap">
+                    <img src={item.image} alt={`${item.name} for Mr & Miss Autism 2026`} loading="lazy" decoding="async" />
+                  </div>
+                  <div className="top-feature-content">
+                    <div className="top-feature-role">{item.role}</div>
+                    <h3>{item.name}</h3>
+                    <p>{item.text}</p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
